@@ -1,12 +1,17 @@
 ﻿=== PeaZip language file ===
 Portuguese (Portugal)
-8.5
+8.6
 Tradução: Hugo Carvalho, José Carlos, Sérgio Marques
 Revisão: Hugo Carvalho 
-Revisto em: 20220304
+Revisto em: 20220412
 
 === PeaZip text group ===
 
+txt_8_6_clear: A opção "Limpar" remove ficheiros editados temporariamente, que de outra forma estariam disponíveis para posterior edição.
+txt_8_6_noclear: Descartar todas as alterações sem atualizar o arquivo
+txt_8_6_nosimple: Não atualizar arquivo, manter ficheiros editados temporariamente para posterior edição
+txt_8_6_immediate: Execução imediata
+txt_8_6_yessimple: Atualizar arquivo, manter ficheiros editados temporariamente para posterior edição
 txt_8_5_advbrowser: Aplicar filtros ao navegador de arquivos
 txt_8_5_detailslarge: Detalhes, grande
 txt_8_5_intext: Extrair para o caminho de trabalho temporário e depois mover para a saída (perguntar antes de substituir)
@@ -53,7 +58,7 @@ txt_8_0_defaultactionhint: Ação padrão com duplo clique em ficheiros associad
 txt_8_0_defaultaction: Ação padrão ao iniciar
 txt_8_0_enableextand: Ativar submenu "Extrair e abrir com"
 txt_8_0_forcetyping: Impor introdução interativa de palavras-passe
-txt_8_0_setpwopt: Definir palavra-passe/ opções para ficheiro-chave
+txt_8_0_setpwopt: Definir opções para palavra-passe / ficheiro-chave
 txt_8_0_forcetypinghelp: Irá executar a infraestrurira binária na consola e não pode explorar arquivos com nomes de ficheiros cifrados. Permite criar scripts que não serão executados sem supervisão, mas sim interativamente com uma palavra-passe.
 txt_7_9_spacing: Espaçamento
 txt_7_9_zooming: Ampliação

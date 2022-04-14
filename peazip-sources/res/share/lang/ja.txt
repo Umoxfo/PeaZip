@@ -1,12 +1,17 @@
 ﻿=== PeaZip language file ===
 Japanese - 日本語
-8.5
+8.6
 Translated by: Dan Tanaka
 Last rev. by: Umoxfo
 Last rev.: 2022-03-18
 
 === PeaZip text group ===
 
+txt_8_6_clear: "Clear" option removes temp edited files, otherwise available for further editing.
+txt_8_6_noclear: Discard all changes without updating the archive
+txt_8_6_nosimple: Do not update archive, keep temp edited files for further editing
+txt_8_6_immediate: Immediate execution
+txt_8_6_yessimple: Update archive, keep temp edited files for further editing
 txt_8_5_advbrowser: アーカイブブラウザにフィルターを適用
 txt_8_5_detailslarge: 詳細・大
 txt_8_5_intext: 一時的な作業パスに展開し、出力に移動（上書き前に確認）
@@ -146,7 +151,7 @@ txt_7_1_typetosearch: 現在のパスで検索するために入力
 txt_7_1_type_description_zstd: Zstandard: Facebookの高速圧縮、非常に高速な解凍
 txt_7_0_af: フォルダの内容を分析
 txt_7_0_autoopentar: tar.*ファイル内の単一のtarアーカイブを自動的に開く
-txt_7_0_exttmppath: コンテンツは一時的な作業パスの外、次の場所に展開されます: 
+txt_7_0_exttmppath: コンテンツは一時的な作業パスの外、次の場所に展開されます:
 txt_6_9_autou: アーカイブ内の変更されたファイルを自動更新
 txt_6_9_forceu: アーカイブ内の編集済みファイルを更新
 txt_6_9_opuns: 現在のアーカイブタイプではサポートされていない操作
@@ -523,7 +528,7 @@ txt_2_7_oop: タスク完了時に出力パスを開く
 txt_2_7_validatefn: 無効なファイル名を検出したため、動作を停止しました:
 txt_2_7_validatecl: 潜在的に危険なコマンドを検出したため、動作を停止しました (許可されていないプログラム内でのコマンドの連結 など):
 txt_2_7_output: 出力
-txt_2_7_pwnotset: パスワードが設定されていません: 
+txt_2_7_pwnotset: パスワードが設定されていません:
 txt_2_7_pwarcset: パスワードが設定されています
 txt_2_7_pwextset: パスワードが設定されているため、暗号化されたアーカイブの展開/一覧表示/テストが可能です
 txt_2_7_archivehint: ここにファイルやフォルダをドラッグしてアーカイブするか、右クリックしてその他のオプションを表示します
@@ -1000,7 +1005,7 @@ txt_reset_theme: 埋め込みテーマにリセット
 txt_restore_att: 元の属性に戻す
 txt_run_as: として実行 (パスワードが空白のユーザーには切り替えることはできません)
 txt_run_as2: 別のユーザーとして実行
-txt_sample: サンプル: 
+txt_sample: サンプル:
 txt_saveas: 名前を付けて保存
 txt_savehistory: 履歴データを保存
 txt_save_infolder: フォルダに保存 (自動)
