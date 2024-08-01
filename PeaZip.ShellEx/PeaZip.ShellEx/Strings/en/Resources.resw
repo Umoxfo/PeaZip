@@ -117,111 +117,111 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add7z" xml:space="preserve">
+  <data name="Add7z.Content" xml:space="preserve">
     <value>Add to 7z</value>
     <comment>PeaZip.add2separate7z</comment>
   </data>
-  <data name="AddArchive" xml:space="preserve">
+  <data name="AddArchive.Content" xml:space="preserve">
     <value>Add to archive</value>
     <comment>PeaZip.add2separate</comment>
   </data>
-  <data name="AddBrotli" xml:space="preserve">
+  <data name="AddBrotli.Content" xml:space="preserve">
     <value>Add to Brotli</value>
   </data>
-  <data name="AddBZip2" xml:space="preserve">
+  <data name="AddBZip2.Content" xml:space="preserve">
     <value>Add to BZip2</value>
   </data>
-  <data name="AddGZip" xml:space="preserve">
+  <data name="AddGZip.Content" xml:space="preserve">
     <value>Add to GZip</value>
   </data>
-  <data name="AddPea" xml:space="preserve">
+  <data name="AddPea.Content" xml:space="preserve">
     <value>Add to PEA</value>
   </data>
-  <data name="AddTar" xml:space="preserve">
+  <data name="AddTar.Content" xml:space="preserve">
     <value>Add to TAR</value>
   </data>
-  <data name="AddToSelfExtracting" xml:space="preserve">
+  <data name="AddToSelfExtracting.Content" xml:space="preserve">
     <value>Add to self-extracting archive</value>
     <comment>PeaZip.add2separatesfx</comment>
   </data>
-  <data name="AddToSeparateArchive" xml:space="preserve">
+  <data name="AddToSeparateArchive.Content" xml:space="preserve">
     <value>Add to separate archive(s)</value>
     <comment>PeaZip.add2separatesingle</comment>
   </data>
-  <data name="AddToZipAndMail" xml:space="preserve">
+  <data name="AddToZipAndMail.Content" xml:space="preserve">
     <value>Add to ZIP and send by mail</value>
     <comment>PeaZip.add2separatezipmail</comment>
   </data>
-  <data name="AddWim" xml:space="preserve">
+  <data name="AddWim.Content" xml:space="preserve">
     <value>Add to WIM</value>
   </data>
-  <data name="AddXz" xml:space="preserve">
+  <data name="AddXz.Content" xml:space="preserve">
     <value>Add to XZ</value>
   </data>
-  <data name="AddZip" xml:space="preserve">
+  <data name="AddZip.Content" xml:space="preserve">
     <value>Add to ZIP</value>
     <comment>PeaZip.add2separatezip</comment>
   </data>
-  <data name="AddZqap" xml:space="preserve">
+  <data name="AddZqap.Content" xml:space="preserve">
     <value>Add to Zpaq</value>
   </data>
-  <data name="AddZstd" xml:space="preserve">
+  <data name="AddZstd.Content" xml:space="preserve">
     <value>Add to Zstd</value>
   </data>
-  <data name="Analyze" xml:space="preserve">
+  <data name="Analyze.Content" xml:space="preserve">
     <value>CRC, hash and file tools</value>
     <comment>PeaZip.analyze</comment>
   </data>
-  <data name="BrowsePath" xml:space="preserve">
+  <data name="BrowsePath.Content" xml:space="preserve">
     <value>Browse path with PeaZip</value>
     <comment>PeaZip.ext2browsepath</comment>
   </data>
-  <data name="Convert" xml:space="preserve">
+  <data name="Convert.Content" xml:space="preserve">
     <value>Convert archives</value>
     <comment>PeaZip.add2convert</comment>
   </data>
-  <data name="Encrypt7z" xml:space="preserve">
+  <data name="Encrypt7z.Content" xml:space="preserve">
     <value>Encrypt (7Z)</value>
     <comment>PeaZip.add2separate7zencrypt</comment>
   </data>
-  <data name="Ext" xml:space="preserve">
+  <data name="Ext.Content" xml:space="preserve">
     <value>Extract...</value>
     <comment>PeaZip.ext2main</comment>
   </data>
-  <data name="ExtDesktop" xml:space="preserve">
+  <data name="ExtDesktop.Content" xml:space="preserve">
     <value>Extract to Desktop</value>
   </data>
-  <data name="ExtDL" xml:space="preserve">
+  <data name="ExtDL.Content" xml:space="preserve">
     <value>Extract to Downloads</value>
   </data>
-  <data name="ExtDoc" xml:space="preserve">
+  <data name="ExtDoc.Content" xml:space="preserve">
     <value>Extract to Documents</value>
   </data>
-  <data name="ExtFolder" xml:space="preserve">
+  <data name="ExtFolder.Content" xml:space="preserve">
     <value>Extract here (in new folder)</value>
     <comment>PeaZip.ext2folder</comment>
   </data>
-  <data name="ExtHere" xml:space="preserve">
+  <data name="ExtHere.Content" xml:space="preserve">
     <value>Extract here</value>
     <comment>PeaZip.ext2here</comment>
   </data>
-  <data name="ExtSmart" xml:space="preserve">
+  <data name="ExtSmart.Content" xml:space="preserve">
     <value>Extract here (smart new folder)</value>
     <comment>PeaZip.ext2smart</comment>
   </data>
-  <data name="OpenArchive" xml:space="preserve">
+  <data name="OpenArchive.Content" xml:space="preserve">
     <value>Open as archive</value>
     <comment>PeaZip.ext2browseasarchive</comment>
   </data>
-  <data name="SecureDelete" xml:space="preserve">
+  <data name="SecureDelete.Content" xml:space="preserve">
     <value>Secure delete</value>
     <comment>PeaZip.add2wipe</comment>
   </data>
-  <data name="SplitFile" xml:space="preserve">
+  <data name="SplitFile.Content" xml:space="preserve">
     <value>Split file</value>
     <comment>PeaZip.add2split</comment>
   </data>
-  <data name="Test" xml:space="preserve">
+  <data name="Test.Content" xml:space="preserve">
     <value>Test archive(s)</value>
     <comment>PeaZip.ext2test</comment>
   </data>

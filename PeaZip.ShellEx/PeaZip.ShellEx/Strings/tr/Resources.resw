@@ -1,64 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -112,84 +53,63 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddArchive" xml:space="preserve">
-    <value>Arþive ekle</value>
+  <data name="AddArchive.Content" xml:space="preserve">
+    <value>Arşive ekle</value>
   </data>
-  <data name="AddToSeparateArchive" xml:space="preserve">
-    <value>Ayrý arþiv(ler)e ekle</value>
+  <data name="AddToSeparateArchive.Content" xml:space="preserve">
+    <value>Ayrı arşiv(ler)e ekle</value>
   </data>
-  <data name="Add7z" xml:space="preserve">
-    <value>7Z'e ekle</value>
+  <data name="Add7z.Content" xml:space="preserve">
+    <value>7Z'ye ekle</value>
   </data>
-  <data name="Add7zFastest" xml:space="preserve">
-    <value>7Z'e ekle, en hýzlý</value>
+  <data name="Encrypt7z.Content" xml:space="preserve">
+    <value>Şifrele (7Z)</value>
   </data>
-  <data name="Add7zNormal" xml:space="preserve">
-    <value>7Z'e ekle, normal</value>
-  </data>
-  <data name="Add7zUltra" xml:space="preserve">
-    <value>7Z'e ekle, ultra</value>
-  </data>
-  <data name="Encrypt7Z" xml:space="preserve">
-    <value>Þifrele (7Z)</value>
-  </data>
-  <data name="AddZip" xml:space="preserve">
+  <data name="AddZip.Content" xml:space="preserve">
     <value>ZIP'e ekle</value>
   </data>
-  <data name="AddZipFastest" xml:space="preserve">
-    <value>ZIP'e ekle, en hýzlý</value>
-  </data>
-  <data name="AddZipNormal" xml:space="preserve">
-    <value>ZIP'e ekle, normal</value>
-  </data>
-  <data name="AddZipUltra" xml:space="preserve">
-    <value>ZIP'e ekle, ultra</value>
-  </data>
-  <data name="AddToZipAndMail" xml:space="preserve">
+  <data name="AddToZipAndMail.Content" xml:space="preserve">
     <value>Zip ve posta</value>
   </data>
-  <data name="AddToSelfExtracting" xml:space="preserve">
-    <value>Kendi kendine çýkartýlan arþive ekle</value>
+  <data name="AddToSelfExtracting.Content" xml:space="preserve">
+    <value>Kendiliğinden açılan arşive ekle</value>
   </data>
-  <data name="OpenArchive" xml:space="preserve">
-    <value>Arþiv olarak aç</value>
+  <data name="OpenArchive.Content" xml:space="preserve">
+    <value>Arşiv olarak aç</value>
   </data>
-  <data name="BrowsePath" xml:space="preserve">
+  <data name="BrowsePath.Content" xml:space="preserve">
     <value>PeaZip ile yola göz at</value>
   </data>
-  <data name="SplitFile" xml:space="preserve">
-    <value>Dosya böl</value>
+  <data name="SplitFile.Content" xml:space="preserve">
+    <value>Dosyayı böl</value>
   </data>
-  <data name="Convert" xml:space="preserve">
-    <value>Dönüþtür</value>
+  <data name="Convert.Content" xml:space="preserve">
+    <value>Dönüştür</value>
   </data>
-  <data name="SecureDelete" xml:space="preserve">
+  <data name="SecureDelete.Content" xml:space="preserve">
     <value>Güvenli sil</value>
   </data>
-  <data name="ExtHere" xml:space="preserve">
-    <value>Buraya çýkart</value>
+  <data name="ExtHere.Content" xml:space="preserve">
+    <value>Buraya çıkart</value>
   </data>
-  <data name="ExtSmart" xml:space="preserve">
-    <value>Buraya çýkart (akýllý)</value>
+  <data name="ExtSmart.Content" xml:space="preserve">
+    <value>Buraya çıkart (yeni akıllı klasör)</value>
   </data>
-  <data name="ExtFolder" xml:space="preserve">
-    <value>Buraya çýkart (yeni klasörde)</value>
+  <data name="ExtFolder.Content" xml:space="preserve">
+    <value>Buraya çıkart (yeni klasöre)</value>
   </data>
-  <data name="Ext" xml:space="preserve">
-    <value>Çýkart...</value>
+  <data name="Ext.Content" xml:space="preserve">
+    <value>Çıkart...</value>
   </data>
-  <data name="ExtArchive" xml:space="preserve">
-    <value>Arþivleri çýkart</value>
+  <data name="Test.Content" xml:space="preserve">
+    <value>Arşiv(ler)i test edin</value>
   </data>
-  <data name="Test" xml:space="preserve">
-    <value>Test arþiv(ler)i</value>
-  </data>
-  <data name="Analyze" xml:space="preserve">
-    <value>CRC, karma ve dosya araçlarý</value>
+  <data name="Analyze.Content" xml:space="preserve">
+    <value>CRC, karma ve dosya araçları</value>
   </data>
 </root>

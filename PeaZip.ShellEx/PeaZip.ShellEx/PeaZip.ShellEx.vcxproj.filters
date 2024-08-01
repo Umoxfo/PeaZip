@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -25,17 +25,31 @@
     <Filter Include="Source Files\util\registory">
       <UniqueIdentifier>{4c6c6bad-6009-426c-b0be-7e1b524d37fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Command">
+      <UniqueIdentifier>{2daf6199-036b-4c43-a27d-d27f2e6c98be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\helper">
+      <UniqueIdentifier>{f2c58e37-8781-4f92-8540-3860b0349668}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Config">
+      <UniqueIdentifier>{78eb4559-c34f-4396-b9b6-9dee5713a8bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\helper\command">
+      <UniqueIdentifier>{03cb042f-e1c4-4efb-a408-2cc1ddc6e336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Commands">
+      <UniqueIdentifier>{98b8bb7d-9119-49b4-a1f9-0eea9b41c5a8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup Label="Strings">
     <Filter Include="Resource Files\Strings">
       <UniqueIdentifier>{747810e8-44e5-41c8-89fd-e27a520961dd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Strings\en">
-      <UniqueIdentifier>{7028f869-644c-44dd-a568-d1a79bbd9903}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Strings\be">
+    <Filter Include="Resource Files\Strings\be-Cyrl">
       <UniqueIdentifier>{fed37f3c-079b-4f3c-9e56-136db90bc4e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Strings\ja-JP">
-      <UniqueIdentifier>{512fba67-5e5b-4c22-af6e-931debb1be1d}</UniqueIdentifier>
+    <Filter Include="Resource Files\Strings\be-Latn">
+      <UniqueIdentifier>{58c80aa1-18ba-48b3-ad56-105b5d7e0c4c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Strings\bg">
       <UniqueIdentifier>{eec2843d-dc40-4dfe-bcdb-42e623bf8c44}</UniqueIdentifier>
@@ -49,8 +63,11 @@
     <Filter Include="Resource Files\Strings\de">
       <UniqueIdentifier>{5ebe976b-c195-44fc-b637-dd79499dbd13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Strings\el-gr">
+    <Filter Include="Resource Files\Strings\el">
       <UniqueIdentifier>{9cc3efd9-2dd0-419f-af84-8cb5e949b062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Strings\en">
+      <UniqueIdentifier>{7028f869-644c-44dd-a568-d1a79bbd9903}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Strings\en-gb">
       <UniqueIdentifier>{e337e9eb-6629-4585-a5e8-2f77e93334b8}</UniqueIdentifier>
@@ -78,6 +95,9 @@
     </Filter>
     <Filter Include="Resource Files\Strings\it">
       <UniqueIdentifier>{4796911a-dc36-49a7-8d06-c0ffcf19a3af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Strings\ja">
+      <UniqueIdentifier>{512fba67-5e5b-4c22-af6e-931debb1be1d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resource Files\Strings\ko">
       <UniqueIdentifier>{94a794eb-8330-477e-8023-cd3579b5200e}</UniqueIdentifier>
@@ -118,15 +138,6 @@
     <Filter Include="Resource Files\Strings\zh-Hant">
       <UniqueIdentifier>{4dd6050a-8a72-431b-80b6-14e0e313b722}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Strings\be-Latn">
-      <UniqueIdentifier>{58c80aa1-18ba-48b3-ad56-105b5d7e0c4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Command">
-      <UniqueIdentifier>{2daf6199-036b-4c43-a27d-d27f2e6c98be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Command">
-      <UniqueIdentifier>{98b8bb7d-9119-49b4-a1f9-0eea9b41c5a8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -135,16 +146,10 @@
     <ClInclude Include="ExplorerCommandBase.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
-    <ClInclude Include="AnalyzeCommand.h">
+    <ClInclude Include="ExplorerCommandRoot.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
     <ClInclude Include="BrowsePathCommand.h">
-      <Filter>Header Files\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="Commands.h">
-      <Filter>Header Files\Command</Filter>
-    </ClInclude>
-    <ClInclude Include="ExplorerCommandRoot.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
   </ItemGroup>
@@ -168,27 +173,51 @@
       <Filter>Source Files\util\registory</Filter>
     </ClCompile>
     <ClCompile Include="ExplorerCommandBase.cpp">
-      <Filter>Source Files\Command</Filter>
-    </ClCompile>
-    <ClCompile Include="AnalyzeCommand.cpp">
-      <Filter>Source Files\Command</Filter>
-    </ClCompile>
-    <ClCompile Include="BrowsePathCommand.cpp">
-      <Filter>Source Files\Command</Filter>
+      <Filter>Source Files\Commands</Filter>
     </ClCompile>
     <ClCompile Include="ExplorerCommandRoot.cpp">
-      <Filter>Source Files\Command</Filter>
+      <Filter>Source Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="config.ixx">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="config-appsettings.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.command.ixx">
+      <Filter>Source Files\helper\command</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.command-browse.ixx">
+      <Filter>Source Files\helper\command</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.command-extract.ixx">
+      <Filter>Source Files\helper\command</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.command-add.ixx">
+      <Filter>Source Files\helper\command</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.command-util.ixx">
+      <Filter>Source Files\helper\command</Filter>
+    </ClCompile>
+    <ClCompile Include="config-registory.cpp">
+      <Filter>Source Files\Config</Filter>
+    </ClCompile>
+    <ClCompile Include="BrowsePathCommand.cpp">
+      <Filter>Source Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.Separator.ixx">
+      <Filter>Source Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.Analyze.ixx">
+      <Filter>Source Files\Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en\Resources.resw">
-      <Filter>Resource Files\Strings\en</Filter>
+    <PRIResource Include="Strings\be-Cyrl\Resources.resw">
+      <Filter>Resource Files\Strings\be-Cyrl</Filter>
     </PRIResource>
-    <PRIResource Include="Strings\be\Resources.resw">
-      <Filter>Resource Files\Strings\be</Filter>
-    </PRIResource>
-    <PRIResource Include="Strings\be\Resources.resw">
-      <Filter>Resource Files\Strings\be</Filter>
+    <PRIResource Include="Strings\be-Latn\Resources.resw">
+      <Filter>Resource Files\Strings\be-Latn</Filter>
     </PRIResource>
     <PRIResource Include="Strings\bg\Resources.resw">
       <Filter>Resource Files\Strings\bg</Filter>
@@ -202,8 +231,11 @@
     <PRIResource Include="Strings\de\Resources.resw">
       <Filter>Resource Files\Strings\de</Filter>
     </PRIResource>
-    <PRIResource Include="Strings\el-gr\Resources.resw">
-      <Filter>Resource Files\Strings\el-gr</Filter>
+    <PRIResource Include="Strings\el\Resources.resw">
+      <Filter>Resource Files\Strings\el</Filter>
+    </PRIResource>
+    <PRIResource Include="Strings\en\Resources.resw">
+      <Filter>Resource Files\Strings\en</Filter>
     </PRIResource>
     <PRIResource Include="Strings\en-gb\Resources.resw">
       <Filter>Resource Files\Strings\en-gb</Filter>
@@ -232,8 +264,8 @@
     <PRIResource Include="Strings\it\Resources.resw">
       <Filter>Resource Files\Strings\it</Filter>
     </PRIResource>
-    <PRIResource Include="Strings\ja-JP\Resources.resw">
-      <Filter>Resource Files\Strings\ja-JP</Filter>
+    <PRIResource Include="Strings\ja\Resources.resw">
+      <Filter>Resource Files\Strings\ja</Filter>
     </PRIResource>
     <PRIResource Include="Strings\ko\Resources.resw">
       <Filter>Resource Files\Strings\ko</Filter>
@@ -273,9 +305,6 @@
     </PRIResource>
     <PRIResource Include="Strings\zh-Hant\Resources.resw">
       <Filter>Resource Files\Strings\zh-Hant</Filter>
-    </PRIResource>
-    <PRIResource Include="Strings\be-Latn\Resources.resw">
-      <Filter>Resource Files\Strings\be-Latn</Filter>
     </PRIResource>
   </ItemGroup>
   <ItemGroup>

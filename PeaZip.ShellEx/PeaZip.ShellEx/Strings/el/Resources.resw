@@ -59,57 +59,57 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddArchive.Content" xml:space="preserve">
-    <value>Přidat do archivu</value>
+    <value>Προσθήκη σε αρχείο συμπίεσης</value>
   </data>
   <data name="AddToSeparateArchive.Content" xml:space="preserve">
-    <value>Přidat do oddělených archivů</value>
+    <value>Προσθήκη σε ξεχωριστά αρχεία συμπίεσης</value>
   </data>
   <data name="Add7z.Content" xml:space="preserve">
-    <value>Přidat do 7Z</value>
+    <value>Προσθήκη σε αρχείο 7Z</value>
   </data>
   <data name="Encrypt7z.Content" xml:space="preserve">
-    <value>Encrypt (7Z)</value>
+    <value>Κρυπτογράφηση (7Z)</value>
   </data>
   <data name="AddZip.Content" xml:space="preserve">
-    <value>Přidat do ZIP</value>
+    <value>Προσθήκη σε αρχείο ZIP</value>
   </data>
   <data name="AddToZipAndMail.Content" xml:space="preserve">
-    <value>Odeslat ZIP e-mailem</value>
+    <value>Συμπίεση και ταχυδρόμηση αρχείου</value>
   </data>
   <data name="AddToSelfExtracting.Content" xml:space="preserve">
-    <value>Přidat do samorozbalovacího archivu</value>
+    <value>Προσθήκη σε αρχείο αυτόματης εξαγωγής</value>
   </data>
   <data name="OpenArchive.Content" xml:space="preserve">
-    <value>Otevřít jako archiv</value>
+    <value>Άνοιγμα ως αρχείο</value>
   </data>
   <data name="BrowsePath.Content" xml:space="preserve">
-    <value>Prozkoumat v PeaZipu</value>
+    <value>Εξερεύνηση διαδρομής με το PeaZip</value>
   </data>
   <data name="SplitFile.Content" xml:space="preserve">
-    <value>Rozdělit soubor</value>
+    <value>Διαίρεση αρχείου</value>
   </data>
   <data name="Convert.Content" xml:space="preserve">
-    <value>Convert</value>
+    <value>Μετατροπή</value>
   </data>
   <data name="SecureDelete.Content" xml:space="preserve">
-    <value>Bezpečně smazat</value>
+    <value>Ασφαλής διαγραφή</value>
   </data>
   <data name="ExtHere.Content" xml:space="preserve">
-    <value>Rozbalit sem</value>
+    <value>Εξαγωγή εδώ</value>
   </data>
   <data name="ExtSmart.Content" xml:space="preserve">
-    <value>Rozbalit sem (smart)</value>
+    <value>Εξαγωγή εδώ (έξυπνος νέος φάκελος)</value>
   </data>
   <data name="ExtFolder.Content" xml:space="preserve">
-    <value>Rozbalit sem (do nové složky)</value>
+    <value>Εξαγωγή εδώ (σε νέο φάκελο)</value>
   </data>
   <data name="Ext.Content" xml:space="preserve">
-    <value>Rozbalit...</value>
+    <value>Εξαγωγή...</value>
   </data>
   <data name="Test.Content" xml:space="preserve">
-    <value>Testovat archiv(y)</value>
+    <value>Δοκιμή αρχείου(ων)</value>
   </data>
   <data name="Analyze.Content" xml:space="preserve">
-    <value>CRC, hash and file tools</value>
+    <value>CRC, hash και εργαλεία αρχείων</value>
   </data>
 </root>

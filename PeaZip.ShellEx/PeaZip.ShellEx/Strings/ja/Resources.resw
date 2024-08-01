@@ -117,94 +117,94 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add7z" xml:space="preserve">
+  <data name="Add7z.Content" xml:space="preserve">
     <value>7Z に追加</value>
   </data>
-  <data name="AddArchive" xml:space="preserve">
+  <data name="AddArchive.Content" xml:space="preserve">
     <value>アーカイブに追加</value>
   </data>
-  <data name="AddBrotli" xml:space="preserve">
+  <data name="AddBrotli.Content" xml:space="preserve">
     <value>Brotli に追加</value>
   </data>
-  <data name="AddBZip2" xml:space="preserve">
+  <data name="AddBZip2.Content" xml:space="preserve">
     <value>BZip2 に追加</value>
   </data>
-  <data name="AddGZip" xml:space="preserve">
+  <data name="AddGZip.Content" xml:space="preserve">
     <value>GZip に追加</value>
   </data>
-  <data name="AddPea" xml:space="preserve">
+  <data name="AddPea.Content" xml:space="preserve">
     <value>PEA に追加</value>
   </data>
-  <data name="AddTar" xml:space="preserve">
+  <data name="AddTar.Content" xml:space="preserve">
     <value>TAR に追加</value>
   </data>
-  <data name="AddToSelfExtracting" xml:space="preserve">
+  <data name="AddToSelfExtracting.Content" xml:space="preserve">
     <value>自己解凍アーカイブに追加</value>
   </data>
-  <data name="AddToSeparateArchive" xml:space="preserve">
+  <data name="AddToSeparateArchive.Content" xml:space="preserve">
     <value>個別のアーカイブに追加</value>
   </data>
-  <data name="AddToZipAndMail" xml:space="preserve">
+  <data name="AddToZipAndMail.Content" xml:space="preserve">
     <value>ZIP してメール</value>
   </data>
-  <data name="AddWim" xml:space="preserve">
+  <data name="AddWim.Content" xml:space="preserve">
     <value>WIM に追加</value>
   </data>
-  <data name="AddXz" xml:space="preserve">
+  <data name="AddXz.Content" xml:space="preserve">
     <value>XZ に追加</value>
   </data>
-  <data name="AddZip" xml:space="preserve">
+  <data name="AddZip.Content" xml:space="preserve">
     <value>ZIP に追加</value>
   </data>
-  <data name="AddZqap" xml:space="preserve">
+  <data name="AddZqap.Content" xml:space="preserve">
     <value>Zpaq に追加</value>
   </data>
-  <data name="AddZstd" xml:space="preserve">
+  <data name="AddZstd.Content" xml:space="preserve">
     <value>Zstd に追加</value>
   </data>
-  <data name="Analyze" xml:space="preserve">
+  <data name="Analyze.Content" xml:space="preserve">
     <value>CRC, ハッシュ, ファイルツール</value>
   </data>
-  <data name="BrowsePath" xml:space="preserve">
+  <data name="BrowsePath.Content" xml:space="preserve">
     <value>パスを PeaZip で開く</value>
   </data>
-  <data name="Convert" xml:space="preserve">
+  <data name="Convert.Content" xml:space="preserve">
     <value>アーカイブを変換</value>
   </data>
-  <data name="Encrypt7z" xml:space="preserve">
+  <data name="Encrypt7z.Content" xml:space="preserve">
     <value>暗号化 (7Z)</value>
   </data>
-  <data name="Ext" xml:space="preserve">
+  <data name="Ext.Content" xml:space="preserve">
     <value>解凍...</value>
   </data>
-  <data name="ExtDesktop" xml:space="preserve">
+  <data name="ExtDesktop.Content" xml:space="preserve">
     <value>デスクトップ に解凍</value>
   </data>
-  <data name="ExtDL" xml:space="preserve">
+  <data name="ExtDL.Content" xml:space="preserve">
     <value>ダウンロード に解凍</value>
   </data>
-  <data name="ExtDoc" xml:space="preserve">
+  <data name="ExtDoc.Content" xml:space="preserve">
     <value>ドキュメント に解凍</value>
   </data>
-  <data name="ExtFolder" xml:space="preserve">
+  <data name="ExtFolder.Content" xml:space="preserve">
     <value>新しいフォルダに解凍</value>
   </data>
-  <data name="ExtHere" xml:space="preserve">
+  <data name="ExtHere.Content" xml:space="preserve">
     <value>ここに解凍</value>
   </data>
-  <data name="ExtSmart" xml:space="preserve">
+  <data name="ExtSmart.Content" xml:space="preserve">
     <value>新しいフォルダに解凍 (Smart)</value>
   </data>
-  <data name="OpenArchive" xml:space="preserve">
+  <data name="OpenArchive.Content" xml:space="preserve">
     <value>アーカイブとして開く</value>
   </data>
-  <data name="SecureDelete" xml:space="preserve">
+  <data name="SecureDelete.Content" xml:space="preserve">
     <value>セキュアデリート</value>
   </data>
-  <data name="SplitFile" xml:space="preserve">
+  <data name="SplitFile.Content" xml:space="preserve">
     <value>ファイルを分割</value>
   </data>
-  <data name="Test" xml:space="preserve">
+  <data name="Test.Content" xml:space="preserve">
     <value>アーカイブをテスト</value>
   </data>
 </root>

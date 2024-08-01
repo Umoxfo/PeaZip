@@ -13,15 +13,15 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
- /*
-  * PROJECT:   PeaZip
-  * FILE:      util.icon.cpp
-  * PURPOSE:   Implementation for PeaZip Shell Extension menu icon util
-  *
-  * LICENSE:   LGPL-3
-  *
-  * DEVELOPER: Makoto Sakaguchi (ycco34vx@gmail.com)
-  */
+/*
+ * PROJECT:   PeaZip
+ * FILE:      util.icon.cpp
+ * PURPOSE:   Implementation for PeaZip Shell Extension menu icon util
+ *
+ * LICENSE:   LGPL-3
+ *
+ * DEVELOPER: Makoto Sakaguchi (ycco34vx@gmail.com)
+ */
 
 module;
 #include "pch.h"

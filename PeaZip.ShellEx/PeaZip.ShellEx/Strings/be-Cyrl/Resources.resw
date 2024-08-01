@@ -59,55 +59,55 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddArchive.Content" xml:space="preserve">
-    <value>Přidat do archivu</value>
+    <value>Спакаваць</value>
   </data>
   <data name="AddToSeparateArchive.Content" xml:space="preserve">
-    <value>Přidat do oddělených archivů</value>
+    <value>Спакаваць у асобны архіў(вы)</value>
   </data>
   <data name="Add7z.Content" xml:space="preserve">
-    <value>Přidat do 7Z</value>
+    <value>Спакаваць у 7Z</value>
   </data>
   <data name="Encrypt7z.Content" xml:space="preserve">
     <value>Encrypt (7Z)</value>
   </data>
   <data name="AddZip.Content" xml:space="preserve">
-    <value>Přidat do ZIP</value>
+    <value>Спакаваць у ZIP</value>
   </data>
   <data name="AddToZipAndMail.Content" xml:space="preserve">
-    <value>Odeslat ZIP e-mailem</value>
+    <value>Спакаваць і перадаць па пошце</value>
   </data>
   <data name="AddToSelfExtracting.Content" xml:space="preserve">
-    <value>Přidat do samorozbalovacího archivu</value>
+    <value>Спакаваць у самавымальны архіў</value>
   </data>
   <data name="OpenArchive.Content" xml:space="preserve">
-    <value>Otevřít jako archiv</value>
+    <value>Адчыніць як архіў</value>
   </data>
   <data name="BrowsePath.Content" xml:space="preserve">
-    <value>Prozkoumat v PeaZipu</value>
+    <value>Прагледзець шлях у PeaZip</value>
   </data>
   <data name="SplitFile.Content" xml:space="preserve">
-    <value>Rozdělit soubor</value>
+    <value>Падзяліць файл</value>
   </data>
   <data name="Convert.Content" xml:space="preserve">
     <value>Convert</value>
   </data>
   <data name="SecureDelete.Content" xml:space="preserve">
-    <value>Bezpečně smazat</value>
+    <value>Зацерці</value>
   </data>
   <data name="ExtHere.Content" xml:space="preserve">
-    <value>Rozbalit sem</value>
+    <value>Выняць сюды</value>
   </data>
   <data name="ExtSmart.Content" xml:space="preserve">
-    <value>Rozbalit sem (smart)</value>
+    <value>Выняць сюды (smart)</value>
   </data>
   <data name="ExtFolder.Content" xml:space="preserve">
-    <value>Rozbalit sem (do nové složky)</value>
+    <value>Выняць сюды (у новую тэчку)</value>
   </data>
   <data name="Ext.Content" xml:space="preserve">
-    <value>Rozbalit...</value>
+    <value>Выняць...</value>
   </data>
   <data name="Test.Content" xml:space="preserve">
-    <value>Testovat archiv(y)</value>
+    <value>Выпрабаваць</value>
   </data>
   <data name="Analyze.Content" xml:space="preserve">
     <value>CRC, hash and file tools</value>

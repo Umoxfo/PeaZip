@@ -15,7 +15,7 @@
 
 /*
  * PROJECT:   PeaZip
- * FILE:      AnalyzeCommand.cpp
+ * FILE:      ExplorerCommandRoot.cpp
  * PURPOSE:   Implementation of the root command for PeaZip context menu
  *            (for files and directories)
  *

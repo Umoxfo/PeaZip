@@ -13,15 +13,15 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 
- /*
-  * PROJECT:   PeaZip
-  * FILE:      AnalyzeCommand.cpp
-  * PURPOSE:   Implementation of the "Browse path with PeaZip" command for PeaZip context menu
-  *
-  * LICENSE:   LGPL-3
-  *
-  * DEVELOPER: Makoto Sakaguchi (ycco34vx@gmail.com)
-  */
+/*
+ * PROJECT:   PeaZip
+ * FILE:      BrowsePathCommand.cpp
+ * PURPOSE:   Implementation of the "Browse path with PeaZip" command for PeaZip context menu
+ *
+ * LICENSE:   LGPL-3
+ *
+ * DEVELOPER: Makoto Sakaguchi (ycco34vx@gmail.com)
+ */
 
 #include "pch.h"
 #include "BrowsePathCommand.h"
