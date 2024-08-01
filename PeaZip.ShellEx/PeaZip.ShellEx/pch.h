@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -11,8 +11,10 @@
 #include <wil/cppwinrt.h>
 #include <winrt/base.h>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Microsoft.Windows.ApplicationModel.Resources.h>
+#include <winrt/Windows.Storage.h>
 
 #pragma comment(lib, "Shlwapi")
 #pragma comment(lib, "Shell32")

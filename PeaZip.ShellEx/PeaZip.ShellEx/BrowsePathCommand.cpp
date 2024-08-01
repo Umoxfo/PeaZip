@@ -29,7 +29,7 @@
 import util.icon;
 
 BrowsePathCommand::BrowsePathCommand() :
-    ExplorerCommandBase(L"BrowsePath", g_browse_path_icon_path, L"-ext2browsepath ")
+    ExplorerCommandBase(L"BrowsePath/Content", g_browse_path_icon_path, L"-ext2browsepath ")
 {}
 
 BrowsePathCommand::~BrowsePathCommand()

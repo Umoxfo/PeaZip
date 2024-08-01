@@ -38,16 +38,17 @@ struct ClassFactory : implements<ClassFactory<T>, IClassFactory>
     HRESULT STDMETHODCALLTYPE CreateInstance(
         _In_opt_ IUnknown* pUnkOuter,
         _In_ REFIID riid,
-        _COM_Outptr_ void** ppvObject) noexcept override final
+        _COM_Outptr_result_maybenull_ void** ppvObject) noexcept override final
     {
         UNREFERENCED_PARAMETER(pUnkOuter);
 
         try
         {
-            return winrt::make<T>()->QueryInterface(riid, ppvObject);
+            return make<T>()->QueryInterface(riid, ppvObject);
         }
         catch (...)
         {
+            *ppvObject = nullptr;
             return winrt::to_hresult();
         }
     }
@@ -103,6 +104,9 @@ HRESULT __stdcall DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _Out
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
+    UNREFERENCED_PARAMETER(hModule);
+    UNREFERENCED_PARAMETER(lpReserved);
+
     switch (ul_reason_for_call)
     {
         case DLL_PROCESS_ATTACH:
@@ -113,5 +117,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
         case DLL_PROCESS_DETACH:
             break;
     }
+
     return TRUE;
 }

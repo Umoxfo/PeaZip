@@ -36,12 +36,11 @@ using namespace Microsoft::Windows::ApplicationModel::Resources;
 ExplorerCommandBase::ExplorerCommandBase(
     const std::wstring_view msgId,
     const std::wstring_view icon,
-    const std::wstring&& option)
-{
-    title = std::move(resource_loader().GetString(msgId));
-    iconPath = icon;
-    this->option = std::move(option);
-}
+    const std::wstring&& option) :
+    title(std::move(resource_loader().GetString(msgId))),
+    iconPath(icon),
+    option(std::move(option))
+{}
 
 ExplorerCommandBase::~ExplorerCommandBase() {}
 
@@ -102,7 +101,7 @@ HRESULT __stdcall ExplorerCommandBase::EnumSubCommands(IEnumExplorerCommand** pp
 }
 #pragma endregion
 
-const wchar_t* ExplorerCommandBase::Application() const noexcept
+const wchar_t* ExplorerCommandBase::application() const noexcept
 {
     static const std::wstring app = L"peazip.exe";
     return app.c_str();
@@ -123,7 +122,7 @@ void ExplorerCommandBase::LaunchAppWithArgs(const std::wstring&& commandLine) co
         SEE_MASK_UNICODE | SEE_MASK_NO_CONSOLE | SEE_MASK_ASYNCOK,
         nullptr,
         nullptr,
-        Application(),
+        application(),
         param.c_str(),
         nullptr,
         SW_SHOWNORMAL,

@@ -25,7 +25,7 @@ protected:
     std::wstring_view iconPath;
     std::wstring option;
 
-    virtual const wchar_t* Application() const noexcept;
+    virtual const wchar_t* application() const noexcept;
 
 private:
     static const winrt::Microsoft::Windows::ApplicationModel::Resources::ResourceLoader& resource_loader() noexcept;

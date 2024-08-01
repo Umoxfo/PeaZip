@@ -23,6 +23,7 @@ struct __declspec(uuid("01F6DED0-42C8-4CFA-9F2D-96998BA8BB17")) ExplorerCommandR
 
 private:
     bool m_initialized;
+
     SubCommandList m_commands;
     SubCommandList::const_iterator m_current;
 };

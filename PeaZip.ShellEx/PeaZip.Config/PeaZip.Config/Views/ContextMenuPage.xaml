@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+  x:Class="PeaZip.Config.Views.ContextMenuPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="using:PeaZip.Config.Views"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  NavigationCacheMode="Required">
+
+  <Page.Resources>
+    <Style x:Key="CardStyle" TargetType="StackPanel">
+      <Setter Property="Background" Value="{ThemeResource LayerFillColorDefaultBrush}" />
+      <Setter Property="Padding" Value="16,8" />
+      <Setter Property="CornerRadius" Value="4" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+    </Style>
+  </Page.Resources>
+
+  <StackPanel Spacing="4">
+    <StackPanel Style="{ThemeResource CardStyle}">
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/Ext"
+        IsChecked="{x:Bind ViewModel.ExtractMain, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/ExtHere"
+        IsChecked="{x:Bind ViewModel.ExtractHere, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/ExtSmart"
+        IsChecked="{x:Bind ViewModel.ExtractSmart, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/ExtFolder"
+        IsChecked="{x:Bind ViewModel.ExtractFolder, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/ExtDesktop"
+        IsChecked="{x:Bind ViewModel.ExtractDesktop, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/ExtDoc"
+        IsChecked="{x:Bind ViewModel.ExtractDocument, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/ExtDL"
+        IsChecked="{x:Bind ViewModel.ExtractDownload, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/Test"
+        IsChecked="{x:Bind ViewModel.ExtractTest, Mode=TwoWay}" />
+    </StackPanel>
+
+    <StackPanel Style="{ThemeResource CardStyle}">
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/OpenArchive"
+        IsChecked="{x:Bind ViewModel.BrowseArchive, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/BrowsePath"
+        IsChecked="{x:Bind ViewModel.BrowsePath, Mode=TwoWay}" />
+    </StackPanel>
+
+    <StackPanel Style="{ThemeResource CardStyle}">
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddArchive"
+        IsChecked="{x:Bind ViewModel.AddArchive, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddToSeparateArchive"
+        IsChecked="{x:Bind ViewModel.AddSeparateArchive, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddToSelfExtracting"
+        IsChecked="{x:Bind ViewModel.AddSfx, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/Add7z"
+        IsChecked="{x:Bind ViewModel.Add7z, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddBrotli"
+        IsChecked="{x:Bind ViewModel.AddBrotli, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddBZip2"
+        IsChecked="{x:Bind ViewModel.AddBZip2, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddGZip"
+        IsChecked="{x:Bind ViewModel.AddGz, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddPea"
+        IsChecked="{x:Bind ViewModel.AddPea, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddTar"
+        IsChecked="{x:Bind ViewModel.AddTar, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddWim"
+        IsChecked="{x:Bind ViewModel.AddWim, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddXz"
+        IsChecked="{x:Bind ViewModel.AddXz, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddZip"
+        IsChecked="{x:Bind ViewModel.AddZip, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddZqap"
+        IsChecked="{x:Bind ViewModel.AddZqap, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddZstd"
+        IsChecked="{x:Bind ViewModel.AddZstd, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/Encrypt7z"
+        IsChecked="{x:Bind ViewModel.Add7zEncrypt, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/AddToZipAndMail"
+        IsChecked="{x:Bind ViewModel.AddZipMail, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/SplitFile"
+        IsChecked="{x:Bind ViewModel.Split, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/Convert"
+        IsChecked="{x:Bind ViewModel.Convert, Mode=TwoWay}" />
+    </StackPanel>
+
+    <StackPanel Style="{ThemeResource CardStyle}">
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/Analyze"
+        IsChecked="{x:Bind ViewModel.Analyze, Mode=TwoWay}" />
+      <CheckBox
+        x:Uid="/PeaZip.ShellEx/Resources/SecureDelete"
+        IsChecked="{x:Bind ViewModel.Wipe, Mode=TwoWay}" />
+    </StackPanel>
+  </StackPanel>
+</Page>

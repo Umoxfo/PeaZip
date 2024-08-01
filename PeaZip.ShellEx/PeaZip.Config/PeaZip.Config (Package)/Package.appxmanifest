@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap3 uap10 rescap">
+
+  <Identity
+    Name="497a93c5-a662-42d4-ae30-8deeefa3f890"
+    Publisher="CN=ycco3"
+    Version="1.0.0.0" />
+
+  <mp:PhoneIdentity PhoneProductId="497a93c5-a662-42d4-ae30-8deeefa3f890" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>PeaZip Config</DisplayName>
+    <PublisherDisplayName>ycco3</PublisherDisplayName>
+    <Logo>Images\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.1555" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.1555" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en"/>
+    <Resource Language="be"/>
+    <Resource Language="be-Latn"/>
+    <Resource Language="bg"/>
+    <Resource Language="ca"/>
+    <Resource Language="de"/>
+    <Resource Language="cs-cz"/>
+    <Resource Language="el-gr"/>
+    <Resource Language="en-gb"/>
+    <Resource Language="es-419"/>
+    <Resource Language="es-es"/>
+    <Resource Language="eu"/>
+    <Resource Language="fi"/>
+    <Resource Language="fr"/>
+    <Resource Language="hu"/>
+    <Resource Language="id"/>
+    <Resource Language="it"/>
+    <Resource Language="ja"/>
+    <Resource Language="ko"/>
+    <Resource Language="lv"/>
+    <Resource Language="nl"/>
+    <Resource Language="pl"/>
+    <Resource Language="pt-br"/>
+    <Resource Language="pt-pt"/>
+    <Resource Language="ru"/>
+    <Resource Language="sl"/>
+    <Resource Language="sv"/>
+    <Resource Language="tr"/>
+    <Resource Language="uk"/>
+    <Resource Language="zh-Hans"/>
+    <Resource Language="zh-Hant"/>
+  </Resources>
+
+  <Applications>
+    <Application
+      Id="App"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$"
+      uap10:TrustLevel="mediumIL"
+      uap10:RuntimeBehavior="packagedClassicApp">
+      <uap3:VisualElements
+        DisplayName="ms-resource:AppDisplayName"
+        Description="ms-resource:AppDescription"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\AppList.png"
+        VisualGroup="PeaZip">
+      </uap3:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

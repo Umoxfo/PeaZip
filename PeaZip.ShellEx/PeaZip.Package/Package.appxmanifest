@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -47,13 +47,13 @@
 
   <Resources>
     <Resource Language="en"/>
-    <Resource Language="be"/>
+    <Resource Language="be-Cyrl"/>
     <Resource Language="be-Latn"/>
     <Resource Language="bg"/>
     <Resource Language="ca"/>
-    <Resource Language="de"/>
     <Resource Language="cs-cz"/>
-    <Resource Language="el-gr"/>
+    <Resource Language="de"/>
+    <Resource Language="el"/>
     <Resource Language="en-gb"/>
     <Resource Language="es-419"/>
     <Resource Language="es-es"/>
@@ -63,7 +63,7 @@
     <Resource Language="hu"/>
     <Resource Language="id"/>
     <Resource Language="it"/>
-    <Resource Language="ja-JP"/>
+    <Resource Language="ja"/>
     <Resource Language="ko"/>
     <Resource Language="lv"/>
     <Resource Language="nl"/>
@@ -128,6 +128,11 @@
 
         <!--<desktop7:Extension Category="windows.shortcut">
           <desktop7:Shortcut
+            File="[{Desktop}]\PeaZip.lnk"
+            Icon="res\share\icons\PeaZip_app.ico" />
+        </desktop7:Extension>-->
+        <!--<desktop7:Extension Category="windows.shortcut">
+          <desktop7:Shortcut
             File="[{Common Programs}]\PeaZip\Add to archive.lnk"
             Icon="res\share\icons\peazip.png"
             Arguments="-add2archive" />
@@ -150,6 +155,7 @@
             Icon="peazip.exe"
             Arguments="-ext2openasarchive" />
         </desktop7:Extension>-->
+
         <uap3:Extension Category="windows.fileTypeAssociation" EntryPoint="Windows.FullTrustApplication">
           <uap3:FileTypeAssociation Name="001" Parameters="&quot;%1&quot;">
             <uap:SupportedFileTypes>

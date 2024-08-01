@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.AutoActivation" Version="8.7.0" />
+    <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.0.8" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.4" />
+  </ItemGroup>
+</Project>
