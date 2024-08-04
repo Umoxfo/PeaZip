@@ -561,6 +561,28 @@
         </uap3:Extension>
       </Extensions>
     </Application>
+
+    <Application
+      Id="Config"
+      Executable="PeaZip.Config\config.exe"
+      uap10:TrustLevel="mediumIL"
+      uap10:RuntimeBehavior="packagedClassicApp">
+      <uap3:VisualElements
+        DisplayName="ms-resource:/Resources/AppDisplayName"
+        Description="ms-resource:/Resources/AppDescription"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\ConfigSquare150x150Logo.png"
+        Square44x44Logo="Assets\Config.png"
+        VisualGroup="PeaZip">
+      </uap3:VisualElements>
+      <Extensions>
+        <uap3:Extension Category="windows.appExecutionAlias">
+          <uap3:AppExecutionAlias>
+            <uap8:ExecutionAlias Alias="Configure PeaZip.exe" />
+          </uap3:AppExecutionAlias>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
   </Applications>
 
   <Capabilities>
