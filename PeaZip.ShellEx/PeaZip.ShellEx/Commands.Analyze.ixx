@@ -18,7 +18,7 @@ export struct AnalyzeCommand : ExplorerCommandBase
 private:
     const wchar_t* application() const noexcept override final
     {
-        static const std::wstring app = L"pea.exe";
+        static const std::wstring app{ L"pea.exe" };
         return app.c_str();
     }
 };

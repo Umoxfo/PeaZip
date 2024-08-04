@@ -79,7 +79,7 @@ inline void load_from_application_data(const ApplicationDataCompositeValue& comp
 
 void load_extract_section(const ApplicationDataCompositeValue& composite, SubCommandList& commands)
 {
-    auto extract = unbox_value_or<uint32_t>(composite.TryLookup(L"extract"), Flags::None);
+    auto extract = unbox_value_or<uint32_t>(composite.Lookup(L"extract"), Flags::None);
     if (extract == Flags::None) return;
 
     if (extract & Flags::ExtractMain)

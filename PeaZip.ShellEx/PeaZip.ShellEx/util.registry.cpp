@@ -36,7 +36,7 @@ LSTATUS RegGetString(const HKEY hKey,
                      std::wstring& data) noexcept
 {
     // Get a large enough size to allocate destination string buffer
-    DWORD dataSize = 0;
+    DWORD dataSize{};
     auto retCode = RegGetValue(
         hKey,
         subKey.data(),
@@ -72,8 +72,7 @@ LSTATUS RegGetString(const HKEY hKey,
     }
 
     // -1 means exclude the NUL written by the Win32 API
-    auto actualStringLength = (dataSize / sizeof(wchar_t)) - 1;
-    data.resize(actualStringLength);
+    data.resize((dataSize / sizeof(wchar_t)) - 1);
 
     return retCode;
 }
