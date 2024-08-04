@@ -50,26 +50,6 @@ static const std::unordered_map<std::wstring, void(*)(SubCommandList&)> util_pag
     { L"PeaZip.add2wipe", add_wipe_command }
 };
 
-static inline void load_default(SubCommandList& commands)
-{
-    commands.reserve(15);
-    add_extract_main_command(commands);
-    add_extract_here_command(commands);
-    add_extract_smart_command(commands);
-    add_extract_folder_command(commands);
-    commands.push_back(make<Separator>());
-    add_browse_archive_command(commands);
-    add_browse_path_command(commands);
-    commands.push_back(make<Separator>());
-    add_archive_command(commands);
-    add_7z_command(commands);
-    add_zip_command(commands);
-    add_7z_encrypt_command(commands);
-    add_convert_command(commands);
-    commands.push_back(make<Separator>());
-    add_analyze_command(commands);
-}
-
 void load_from_registry(SubCommandList& commands)
 {
     static const auto add_separator = [&](bool& addedSeparator, bool& needSeparator)
@@ -143,4 +123,24 @@ void load_from_registry(SubCommandList& commands)
     {
         load_default(commands);
     }
+}
+
+inline void load_default(SubCommandList& commands)
+{
+    commands.reserve(15);
+    add_extract_main_command(commands);
+    add_extract_here_command(commands);
+    add_extract_smart_command(commands);
+    add_extract_folder_command(commands);
+    commands.push_back(make<Separator>());
+    add_browse_archive_command(commands);
+    add_browse_path_command(commands);
+    commands.push_back(make<Separator>());
+    add_archive_command(commands);
+    add_7z_command(commands);
+    add_zip_command(commands);
+    add_7z_encrypt_command(commands);
+    add_convert_command(commands);
+    commands.push_back(make<Separator>());
+    add_analyze_command(commands);
 }

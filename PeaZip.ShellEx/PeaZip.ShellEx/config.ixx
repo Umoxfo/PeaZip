@@ -16,3 +16,4 @@ void load_add_section(const ApplicationDataCompositeValue& composite, SubCommand
 void load_util_section(const ApplicationDataCompositeValue& composite, SubCommandList& commands);
 
 export void load_from_registry(SubCommandList& commands);
+inline void load_default(SubCommandList& commands);
