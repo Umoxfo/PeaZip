@@ -1,0 +1,18 @@
+[project]
+name = "reg-to-resw"
+version = "0.1.0"
+description = "Converter tool from PeaZip .reg files to Windows .resw resource format."
+requires-python = ">=3.14"
+readme = "README.md"
+license = "LGPL-3.0-or-later"
+authors = [{ name = "Umoxfo", email = "ycco34vx@gmail.com" }]
+
+[project.scripts]
+reg2resw = "reg_to_resw.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = true

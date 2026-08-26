@@ -1,0 +1,71 @@
+[project]
+name = "peazip-tools-workspace"
+version = "0.1.0"
+description = "Workspace for PeaZip dev tools"
+requires-python = ">=3.14"
+readme = "README.md"
+license = "LGPL-3.0-or-later"
+license-files = ["../LICENSE"]
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [{ include-group = "lint" }]
+lint = ["ruff>=0.16.6"]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 120
+output-format = "grouped"
+
+[tool.ruff.lint]
+extend-select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "I",    # isort (automatically sort import blocks)
+    "N",    # pep8-naming (enforce PEP 8 naming conventions)
+    "UP",   # pyupgrade (automatically upgrade syntax for Python 3.14+)
+    "B",    # flake8-bugbear (detect potential bugs, mutable default args, etc.)
+    "A",    # flake8-builtins (prevent shadowing built-in identifiers)
+    "C4",   # flake8-comprehensions (optimize comprehension structures)
+    "T20",  # flake8-print: Prevent forgotten print statements in production code
+    "PT",   # flake8-pytest-style: Ensure consistent and modern pytest patterns
+    "SIM",  # flake8-simplify (flatten conditional branches and control flows)
+    "TD",   # flake8-todo: Enforce consistent formatting for TODO comments
+    "ARG",  # flake8-unused-arguments (detect unused function arguments)
+    "PTH",  # flake8-use-pathlib (promote use of pathlib objects over os.path)
+    "FA",   # flake8-future-annotations: Automatically optimize type hinting styles
+    "ERA",  # eradicate: Detect and remove commented-out code blocks
+    "PL",   # Pylint (code complexity and refactoring guidelines)
+    "PERF", # Perflint: Catch anti-patterns that negatively impact performance
+    "RUF",  # Ruff-specific rules
+    "D",    # pydocstyle (docstring style checks)
+    "DOC",  # pydoclint (validate consistency between docstrings and function signatures)
+]
+# Suppress specific default or extended rules that disrupt development flow
+ignore = [
+    "D105",  # undocumented-magic-method (exempt docstrings for magic methods)
+    "D107",  # undocumented-public-init (exempt docstrings for __init__ methods)
+    "E501",  # line-too-long (handled by the formatter, so ignored in linter)
+    "TD003", # missing-todo-link: Disable mandatory issue/URL links for TODO comments
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+ignore-decorators = ["typing.overload"]
+ignore-var-parameters = false
+
+[tool.ruff.lint.per-file-ignores]
+# Relax rules for package initialization files
+"__init__.py" = [
+    "F401", # Ignore unused import warnings for re-exports
+    "D104", # Exempt package-level docstrings
+]
+
+[tool.ruff.format]
+# Enable auto-formatting of Python code snippets inside docstrings
+docstring-code-format = true

@@ -1,0 +1,13 @@
+[project]
+name = "command-catalog"
+version = "0.1.0"
+authors = [{ name = "Umoxfo", email = "ycco34vx@gmail.com" }]
+requires-python = ">=3.14"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = true

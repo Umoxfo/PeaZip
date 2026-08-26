@@ -1,0 +1,42 @@
+# reg2resw.toml
+# External configuration file for PeaZip .reg to .resw converter
+
+# List of filenames to ignore or exclude
+exclude_files = ["default.reg", "chs.reg", "fr.reg"]
+
+# Mapping from .reg filenames (lowercase, without extension) to BCP-47 language tags
+[locale_map]
+bg = "bg"
+by-cr = "be"
+by-lt = "be-Latn"
+ca = "ca"
+cht = "zh-Hant"
+cz = "cs"
+de-uml = "de"
+en = "en"
+en-gb = "en-GB"
+es-es = "es-ES"
+es-la = "es-419"
+eu = "eu"
+fa = "fa"
+fi = "fi"
+fr_alt = "fr"
+fr_alt2 = "fr-ALT"
+gr = "el"
+hu = "hu"
+id = "id"
+it = "it"
+ja = "ja"
+ko = "ko"
+lv = "lv"
+nl = "nl"
+pl = "pl"
+pt-br = "pt-BR"
+pt-pt = "pt-PT"
+ru = "ru"
+sl = "sl"
+sv = "sv"
+tr = "tr"
+tt = "tt"
+uk = "uk"
+zh-cn = "zh-Hans"

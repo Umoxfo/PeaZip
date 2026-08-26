@@ -1,0 +1,9 @@
+root = true
+
+# All files
+[*]
+indent_style = space
+
+# XML project files
+[*.{csproj,vcxproj,vcxproj.filters,wapproj,proj,projitems,shproj,props}]
+indent_size = 2

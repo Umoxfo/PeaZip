@@ -1,0 +1,67 @@
+---
+Language: Cpp
+BasedOnStyle: Microsoft
+Standard: Latest
+
+AccessModifierOffset: -4
+
+AllowShortLambdasOnASingleLine: Inline
+# AllowShortRecordOnASingleLine: EmptyAndAttached
+
+AttributeMacros: [__capability, WINRT_IMPL_AUTO]
+
+BreakAfterOpenBracketBracedList: true
+BreakAfterOpenBracketFunction: true
+BreakAfterOpenBracketIf: true
+BreakAfterOpenBracketLoop: true
+BreakAfterOpenBracketSwitch: true
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeCloseBracketBracedList: true
+# BreakBeforeReturnType: None
+# BreakFunctionDeclarationParameters: false
+
+CompactNamespaces: true
+
+ForEachMacros: [foreach]
+
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           'pch\.h'
+    Priority:        -1
+  - Regex:           '^<windows\.h>'
+    Priority:        2
+    SortPriority:    0
+  - Regex:           '^<winrt/.*'
+    Priority:        3
+    SortPriority:    0
+  - Regex:           '^<[a-z0-9_]+>'
+    Priority:        4
+    SortPriority:    0
+  - Regex:           '.*'
+    Priority:        5
+    SortPriority:    0
+
+IndentCaseLabels: true
+# IndentGotoLabels: OuterIndent
+
+#PackArguments:
+#  BinPack: OnePerLine
+BinPackArguments: false
+AllowAllArgumentsOnNextLine: true
+
+PackConstructorInitializers: NextLine
+
+#PackParameters:
+#  BinPack: OnePerLine
+BinPackParameters: OnePerLine
+AllowAllParametersOfDeclarationOnNextLine: true
+
+PointerAlignment: Left
+# QualifierAlignment: Custom
+# QualifierOrder: ['inline', 'static', 'constexpr', 'friend', 'type', 'const', 'volatile']
+
+SortIncludes:
+  Enabled: false
+
+# SpaceBeforeEnumUnderlyingTypeColon: true
+...

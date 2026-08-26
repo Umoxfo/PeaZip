@@ -1,0 +1,22 @@
+[project]
+name = "peazip-iss-parser"
+version = "0.1.0"
+description = "A lightweight parser for PeaZip Inno Setup configuration scripts."
+requires-python = ">=3.14"
+readme = "README.md"
+license = "LGPL-3.0-or-later"
+authors = [{ name = "Umoxfo", email = "ycco34vx@gmail.com" }]
+dependencies = ["command-catalog"]
+
+[project.scripts]
+pzparse = "peazip_iss_parser.main:main"
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = true
+
+[tool.uv.sources]
+command-catalog = { workspace = true }
