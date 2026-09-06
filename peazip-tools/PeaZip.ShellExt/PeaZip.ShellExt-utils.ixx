@@ -1,16 +1,23 @@
 module;
-#include "pch.h"
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
-export module PeaZip.ShellExt.DllEnv;
+#include <wil/win32_helpers.h>
+
+#ifdef __INTELLISENSE__
+#include <winrt/base.h>
+#endif
+
+export module PeaZip.ShellExt:utils;
 
 import std;
 import winrt_base;
 
-namespace PeaZip::ShellExt::DllEnv
+namespace PeaZip::ShellExt::utils
 {
 namespace fs = std::filesystem;
 
-export [[nodiscard]] const std::expected<fs::path, HRESULT>& GetAppBasePath() noexcept
+export inline [[nodiscard]] std::expected<fs::path, HRESULT> const& get_module_directory_path()
 {
     static const auto s_basePathResult = []() -> std::expected<fs::path, HRESULT> {
         wil::unique_cotaskmem_string dllPath;
@@ -44,4 +51,4 @@ export [[nodiscard]] const std::expected<fs::path, HRESULT>& GetAppBasePath() no
     // Return the cached `expected` object by "reference" (zero-copy)
     return s_basePathResult;
 }
-} // namespace PeaZip::ShellExt::DllEnv
+} // namespace PeaZip::ShellExt::utils

@@ -19,6 +19,7 @@ BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeCloseBracketBracedList: true
 # BreakBeforeReturnType: None
 # BreakFunctionDeclarationParameters: false
+BreakTemplateDeclarations: true
 
 CompactNamespaces: true
 

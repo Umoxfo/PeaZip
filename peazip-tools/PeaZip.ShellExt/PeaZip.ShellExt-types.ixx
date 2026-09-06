@@ -17,6 +17,4 @@ struct CommandMetadata
     const wchar_t* command;         // Execution command
     const wchar_t* arguments;       // Command arguments
 };
-
-using CommandCatalog = std::flat_map<std::wstring_view, CommandMetadata, std::less<>>;
 } // namespace PeaZip::ShellExt

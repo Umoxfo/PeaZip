@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Target relative output directory and filename for generated C++ includes
 OUTPUT_DIRECTORY: Final = Path("src/generated")
-OUTPUT_FILE_NAME: Final = "GeneratedCommands.inc"
+OUTPUT_FILE_NAME: Final = "gen_command_catalog.inc"
 
 
 def generate_command_catalog(

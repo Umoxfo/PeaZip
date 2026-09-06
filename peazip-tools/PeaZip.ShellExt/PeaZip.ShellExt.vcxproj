@@ -127,16 +127,36 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PeaZip.ShellExt-GenericCommand.cpp" />
-    <ClCompile Include="PeaZip.ShellExt-GenericCommand.ixx" />
-    <ClInclude Include="src\generated\GeneratedCommands.inc" />
-    <ClCompile Include="PeaZip.ShellExt-Catalog.ixx" />
+    <ClCompile Include="PeaZip.ShellExt-Catalog.cpp" />
+    <ClCompile Include="PeaZip.ShellExt-Catalog.ixx">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PeaZip.ShellExt-com.cpp" />
+    <ClCompile Include="PeaZip.ShellExt-com.ixx" />
+    <ClCompile Include="PeaZip.ShellExt-Resources.ixx">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="PeaZip.ShellExt-Localizer.ixx" />
+    <ClCompile Include="PeaZip.ShellExt-EnumExplorerCommand.cpp" />
+    <ClCompile Include="PeaZip.ShellExt-EnumExplorerCommand.ixx">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PeaZip.ShellExt-RootCommand.cpp" />
+    <ClCompile Include="PeaZip.ShellExt-RootCommand.ixx">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PeaZip.ShellExt-SubCommand.cpp" />
+    <ClCompile Include="PeaZip.ShellExt-SubCommand.ixx">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClInclude Include="src\generated\gen_command_catalog.inc" />
     <ClCompile Include="PeaZip.ShellExt-types.ixx" />
+    <ClCompile Include="PeaZip.ShellExt-utils.ixx">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="PeaZip.ShellExt.ixx">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PeaZip.ShellExt.DllEnv.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

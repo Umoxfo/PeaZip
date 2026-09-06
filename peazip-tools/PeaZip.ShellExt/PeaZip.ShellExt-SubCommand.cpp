@@ -5,26 +5,23 @@ module;
 #include <winrt/base.h>
 #endif
 
-module PeaZip.ShellExt:GenericCommand;
+module PeaZip.ShellExt:SubCommand;
 
 import std;
 import winrt_base;
 
-import PeaZip.ShellExt.DllEnv;
-
 import :Localizer;
 import :types;
+import :utils;
 
-namespace PeaZip::ShellExt
+using namespace PeaZip::ShellExt::Localizer;
+using namespace PeaZip::ShellExt::utils;
+
+namespace PeaZip::ShellExt::SubCommand
 {
 namespace fs = std::filesystem;
 
-GenericExplorerCommand::GenericExplorerCommand(CommandMetadata metadata) noexcept : m_metadata(std::move(metadata))
-{
-}
-
-std::vector<std::wstring> GenericExplorerCommand::ExtractFilePaths(
-    winrt::com_ptr<IShellItemArray> const& shellItemArray) const noexcept
+std::vector<std::wstring> GenericSubCommand::ExtractFilePaths(IShellItemArray* shellItemArray) const noexcept
 {
     if (shellItemArray == nullptr)
     {
@@ -48,7 +45,12 @@ std::vector<std::wstring> GenericExplorerCommand::ExtractFilePaths(
             wil::unique_cotaskmem_string rawPath;
             if (SUCCEEDED(item->GetDisplayName(SIGDN_FILESYSPATH, rawPath.put())) && rawPath)
             {
-                filePaths.emplace_back(rawPath.get());
+                const wchar_t* pPath = rawPath.get();
+
+                if (pPath[0] != L'\0')
+                {
+                    filePaths.emplace_back(pPath);
+                }
             }
         }
     }
@@ -62,45 +64,45 @@ std::vector<std::wstring> GenericExplorerCommand::ExtractFilePaths(
 /// </summary>
 /// <param name="ppszName">Receives a pointer to the allocated string buffer containing the title.</param>
 /// <returns><c>HRESULT</c> indicating success or failure.</returns>
-IFACEMETHODIMP GenericExplorerCommand::GetTitle(IShellItemArray*, LPWSTR* ppszName) noexcept
+IFACEMETHODIMP GenericSubCommand::GetTitle(IShellItemArray*, LPWSTR* ppszName) noexcept
 {
-    if (ppszName == nullptr)
-    {
-        return E_POINTER;
-    }
+    *ppszName = nullptr;
 
-    // Load and cache the title string if it has not been loaded yet
-    if (m_cachedTitle.empty())
+    try
     {
-        // Use Localizer to retrieve the resource string
-        m_cachedTitle = GetLocalizedString(m_metadata.labelKey, m_metadata.fallbackLabel);
-    }
+        // Load and cache the title string if it has not been loaded yet
+        if (m_cachedTitle.empty())
+        {
+            // Use Localizer to retrieve the resource string
+            m_cachedTitle = GetLocalizedString(m_metadata.labelKey, m_metadata.fallbackLabel);
+        }
 
-    // Allocate and copy string using CoTaskMemAlloc to comply with COM ABI rules
-    auto title = wil::make_cotaskmem_string_nothrow(m_cachedTitle.c_str());
-    if (title == nullptr) [[unlikely]]
+        // Allocate and copy string using CoTaskMemAlloc to comply with COM ABI rules
+        auto title = wil::make_cotaskmem_string_nothrow(m_cachedTitle.c_str(), m_cachedTitle.size());
+        if (!title) [[unlikely]]
+        {
+            return E_OUTOFMEMORY;
+        }
+
+        // Transfer ownership to the caller (Explorer) by releasing the raw pointer
+        *ppszName = title.release();
+        return S_OK;
+    }
+    catch (...)
     {
-        *ppszName = nullptr;
-        return E_OUTOFMEMORY;
+        // Convert any exception to an HRESULT.
+        return winrt::to_hresult();
     }
-
-    // Transfer ownership to the caller (Explorer) by releasing the raw pointer
-    *ppszName = title.release();
-    return S_OK;
 }
 
-IFACEMETHODIMP GenericExplorerCommand::GetIcon(IShellItemArray*, LPWSTR* ppszIcon) noexcept
+IFACEMETHODIMP GenericSubCommand::GetIcon(IShellItemArray*, LPWSTR* ppszIcon) noexcept
 {
-    if (ppszIcon == nullptr)
-    {
-        return E_POINTER;
-    }
     *ppszIcon = nullptr;
 
     try
     {
-        auto const& basePathResult = DllEnv::GetAppBasePath();
-        if (!basePathResult.has_value()) [[unlikely]]
+        auto const& basePathResult = get_module_directory_path();
+        if (!basePathResult) [[unlikely]]
         {
             return basePathResult.error();
         }
@@ -126,15 +128,11 @@ IFACEMETHODIMP GenericExplorerCommand::GetIcon(IShellItemArray*, LPWSTR* ppszIco
             return E_FAIL;
         }
 
-        // エクスプローラー用のカンマ区切り文字列を生成
-        auto const finalIconStr = std::format(L"{},{}", iconFullPath.wstring(), m_metadata.iconIndex);
-
-        // Safely allocate the CoTaskMem memory block using WIL's RAII wrapper
-        auto allocatedStr = wil::make_cotaskmem_string_nothrow(finalIconStr.c_str());
-        RETURN_IF_NULL_ALLOC(allocatedStr);
+        wil::unique_cotaskmem_string target;
+        RETURN_IF_FAILED(wil::str_printf_nothrow(target, L"%ws,%d", iconFullPath.wstring(), m_metadata.iconIndex));
 
         // Transfer ownership to the caller (Explorer) by releasing the raw pointer
-        *ppszIcon = allocatedStr.release();
+        *ppszIcon = target.release();
         return S_OK;
     }
     catch (...)
@@ -144,36 +142,17 @@ IFACEMETHODIMP GenericExplorerCommand::GetIcon(IShellItemArray*, LPWSTR* ppszIco
     }
 }
 
-IFACEMETHODIMP GenericExplorerCommand::GetState(IShellItemArray*, BOOL, EXPCMDSTATE* pCmdState) noexcept
-{
-    if (pCmdState == nullptr)
-        return E_POINTER;
-
-    *pCmdState = ECS_ENABLED;
-    return S_OK;
-}
-
-IFACEMETHODIMP GenericExplorerCommand::GetFlags(EXPCMDFLAGS* pFlags) noexcept
-{
-    if (pFlags == nullptr)
-        return E_POINTER;
-
-    *pFlags = m_metadata.flags;
-    return S_OK;
-}
-
-IFACEMETHODIMP GenericExplorerCommand::Invoke(IShellItemArray* psiItemArray, IBindCtx*) noexcept
+IFACEMETHODIMP GenericSubCommand::Invoke(IShellItemArray* psiItemArray, IBindCtx*) noexcept
 {
     if (psiItemArray == nullptr)
+    {
         return S_OK;
+    }
 
     try
     {
-        winrt::com_ptr<IShellItemArray> shellItemArray;
-        shellItemArray.copy_from(psiItemArray);
-
         // STAスレッド上で安全にパスを抽出
-        auto filePaths = ExtractFilePaths(shellItemArray);
+        auto filePaths = ExtractFilePaths(psiItemArray);
         if (filePaths.empty())
         {
             return S_OK;
@@ -190,15 +169,15 @@ IFACEMETHODIMP GenericExplorerCommand::Invoke(IShellItemArray* psiItemArray, IBi
                 co_await winrt::resume_background();
 
                 // キャッシュされたDLL親フォルダのパスを取得
-                auto const& basePathResult = DllEnv::GetAppBasePath();
-                if (!basePathResult.has_value()) [[unlikely]]
+                auto const& basePathResult = get_module_directory_path();
+                if (!basePathResult) [[unlikely]]
                 {
                     co_return;
                 }
                 auto const& basePath = basePathResult.value();
 
                 // 実行ファイルのフルパス構築
-                const fs::path fullExePath = basePath / strongThis->m_metadata.command;
+                const fs::path exePath = basePath / strongThis->m_metadata.command;
 
 #pragma region Argument Construction
                 // 1. const wchar_t* を wstring_view で受け取り、一時的な文字列コピーを完全に排除
@@ -231,7 +210,7 @@ IFACEMETHODIMP GenericExplorerCommand::Invoke(IShellItemArray* psiItemArray, IBi
                     .fMask = SEE_MASK_DEFAULT,
                     .hwnd = nullptr,
                     .lpVerb = L"open",
-                    .lpFile = fullExePath.c_str(),
+                    .lpFile = exePath.c_str(),
                     .lpParameters = sb.c_str(),
                     .nShow = SW_SHOWNORMAL
                 };
@@ -250,30 +229,4 @@ IFACEMETHODIMP GenericExplorerCommand::Invoke(IShellItemArray* psiItemArray, IBi
         return winrt::to_hresult();
     }
 }
-
-#pragma region Standard Interface Stubs
-IFACEMETHODIMP GenericExplorerCommand::GetToolTip(IShellItemArray*, LPWSTR* ppszInfotip) noexcept
-{
-    if (ppszInfotip == nullptr)
-        return E_INVALIDARG;
-
-    *ppszInfotip = nullptr;
-    return E_NOTIMPL;
-}
-
-IFACEMETHODIMP GenericExplorerCommand::GetCanonicalName(GUID* pguidCommandName) noexcept
-{
-    if (pguidCommandName == nullptr)
-        return E_INVALIDARG;
-
-    *pguidCommandName = GUID_NULL;
-    return S_OK;
-}
-
-IFACEMETHODIMP GenericExplorerCommand::EnumSubCommands(IEnumExplorerCommand** ppEnum) noexcept
-{
-    *ppEnum = nullptr;
-    return E_NOTIMPL;
-}
-#pragma endregion
-} // namespace PeaZip::ShellExt
+} // namespace PeaZip::ShellExt::SubCommand

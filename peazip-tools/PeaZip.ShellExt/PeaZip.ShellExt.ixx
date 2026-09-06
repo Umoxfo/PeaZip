@@ -1,6 +1,10 @@
 export module PeaZip.ShellExt;
 
-import :types;
+export import :types;
+export import :RootCommand;
+export import :SubCommand;
+export import :com;
 import :Localizer;
 import :Catalog;
-export import :GenericCommand;
+import :Resources;
+import :utils;

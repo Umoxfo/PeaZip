@@ -12,7 +12,7 @@ import winrt.Microsoft.Windows.ApplicationModel.Resources;
 
 using namespace winrt::Microsoft::Windows::ApplicationModel::Resources;
 
-namespace PeaZip::ShellExt
+namespace PeaZip::ShellExt::Localizer
 {
 /// <summary>
 /// Retrieves a localized string resource corresponding to the specified key using MRT Core <c>ResourceLoader</c>.
@@ -20,14 +20,14 @@ namespace PeaZip::ShellExt
 /// <param name="resourceKey">Resource key defined in the <c>.resw</c> file.</param>
 /// <param name="fallbackText">Fallback string used if the resource lookup fails.</param>
 /// <returns>Resolved localized string, or the fallback string.</returns>
-export winrt::hstring GetLocalizedString(std::wstring_view resourceKey, std::wstring_view fallbackText = L"") noexcept
+export winrt::hstring GetLocalizedString(std::wstring_view resourceKey, std::wstring_view fallbackText = L"")
 {
-    // Thread-safe lazy-initialization pattern using C++ static local variable
-    static const ResourceLoader loader;
-
     try
     {
-        const auto result = loader.GetString(resourceKey);
+        // Thread-safe lazy-initialization pattern using C++ static local variable
+        static const ResourceLoader resourceLoader;
+
+        const auto result = resourceLoader.GetString(resourceKey);
         if (!result.empty())
         {
             return result;
@@ -40,4 +40,4 @@ export winrt::hstring GetLocalizedString(std::wstring_view resourceKey, std::wst
 
     return winrt::hstring{fallbackText};
 }
-} // namespace PeaZip::ShellExt
+} // namespace PeaZip::ShellExt::Localizer
