@@ -207,12 +207,13 @@ unit peach; //Main form of PeaZip, organized in file browser, archiving, extract
  1.86     20260405  G.Tani     11.0.0
  1.87     20260508  G.Tani     11.1.0
  1.88     20260708  G.Tani     11.2.0
- 1.89     20260905  G.Tani     11.3.0 *** IN PROGRESS
+ 1.89     20260910  G.Tani     11.3.0 *** IN PROGRESS
 
 BACKEND
 7z/p7zip 26.03
 Pea 1.33
  Fixed erroneously reporting some PEA archives as containing relative paths
+ Fixed "invalid password length" error triggered by some interactive modes
  Fixed unchecked size of first compressed block in PEA archives
  UNPEA procedure now extracts to a random named temporary work folder first, in case of successful validation the work folder is renamed to actual output name, in case of falied validation it is automatically deleted
 
@@ -226,10 +227,14 @@ Various fixes
   the check is now applied to "Open/Preview with associated application", previously triggered only by double click event
  Fixed crash on command line export for compressed tar formats
  Fixed crash/hang operating on encrypted ZPAQ archives without providing password in advance
+ Fixed some keys not working due to incorrect maping into keyboard shortcuts
  Fixed syntax for checking MoTW and Alternate Data Streams
  Improved detection of user's temp path on non-Windows systems
- Improved sanitization of special characters in different stages of the scripting engine
- Sanitized unexpected input relative filenames
+ Improved handling of safety sensitive input
+  Improved sanitization of special characters in multiple stages of the scripting engine
+  All input/output filenames are checked for validity
+  Unexpected relative filenames are sanitized
+  Input failing safety checks is sanitized and not propagated further
 
 FILE MANAGER
 Added Shift+F12 keyboard shortcut to open the new "Open with" screen, displaying custom applications and common options (open with associated app, custom app, new PeaZip instance)
@@ -565,8 +570,10 @@ type
    { TFormPeach }
 
    TFormPeach = class(TForm)
-     Label1: TLabel;
      mbksp: TMenuItem;
+     pmdelfromarchive: TMenuItem;
+     Separator52: TMenuItem;
+     shiftE: TMenuItem;
      owcustomapps: TMenuItem;
      pmappapps: TMenuItem;
      powapps: TMenuItem;
@@ -746,7 +753,6 @@ type
      pmrendernative: TMenuItem;
      pmrendersoft: TMenuItem;
      pmrendersharp: TMenuItem;
-     shiftEtogglearchivetree: TAction;
      cbautobrowsetar: TComboBox;
      cbmiddlebutton: TComboBox;
      cbRARrv: TCheckBox;
@@ -3802,6 +3808,7 @@ type
       procedure mhrenamef2Click(Sender: TObject);
       procedure mlogClick(Sender: TObject);
       procedure pmbatchtestClick(Sender: TObject);
+      procedure pmdelfromarchiveClick(Sender: TObject);
       procedure pmextdeskClick(Sender: TObject);
       procedure pmextdocClick(Sender: TObject);
       procedure pmexttoClick(Sender: TObject);
@@ -3853,6 +3860,7 @@ type
       procedure shiftctrlTExecute(Sender: TObject);
       procedure shiftctrlXExecute(Sender: TObject);
       procedure shiftctrlZExecute(Sender: TObject);
+      procedure shiftEClick(Sender: TObject);
       procedure shiftF12Execute(Sender: TObject);
       procedure shiftF1Execute(Sender: TObject);
       procedure shiftF3Execute(Sender: TObject);
@@ -4305,7 +4313,6 @@ type
       procedure TabBarDragOver(Sender, Source: TObject; X, Y: Integer;
         State: TDragState; var Accept: Boolean);
       procedure Timerrename1Timer(Sender: TObject);
-      procedure shiftEtogglearchivetreeExecute(Sender: TObject);
       procedure TreeViewNavDragOver(Sender, Source: TObject; X, Y: Integer;
         State: TDragState; var Accept: Boolean);
       procedure zenc1250Click(Sender: TObject);
@@ -5956,6 +5963,7 @@ function addtoarchive_inarchive(forceadd:boolean):boolean;
 //test for encryption
 function testencrypted:integer;
 function testencrypted_open:integer;
+function testencrypted_fromname(fname,modearchive:ansistring):integer;
 //check selected items
 function checklistsel:integer;
 function checklistanysel:integer;
@@ -5967,7 +5975,6 @@ procedure browse_special_cases;
 procedure open_archive_fromname(s:ansistring);
 procedure browse_arc(mode:ansistring);
 function testeditable:boolean;
-function testencrypted_fromname(fname,modearchive:ansistring):integer;
 procedure generate_archive_breadcrumb;
 procedure refresharchiveroot(mode:AnsiString);
 //get name of multipart archive
@@ -9316,6 +9323,7 @@ with FormPeach do
    pmSearchAdd.Bitmap:=Bsearch;
    po_addtoarchive.Bitmap:=BArchive;
    po_delete.Bitmap:=Bdelete;
+   pmdelfromarchive.Bitmap:=Bdelete;
    pmquickdelete.Bitmap:=Bdelete;
    po_zerofile.Bitmap:=Bwipe;
    pmzerofile.Bitmap:=Bwipe;
@@ -13215,6 +13223,7 @@ MenuItemOpen_extandopenwith.visible:=false;
 pmmorefun_details.Enabled:=false;
 pmmorefun_list.Enabled:=false;
 pmmorefun_info.Enabled:=false;
+po_details.Visible:=false;
 case fun of
    'FILEBROWSER':
    begin
@@ -13225,6 +13234,7 @@ case fun of
    ButtonUn7zaAdd.Hint:=txt_add_tolayout;
    filebrowsermenus;
    MenuItemViewImage.visible:=true;
+   po_details.Visible:=true;
    end;
    'UN7Z':
    begin
@@ -13235,6 +13245,7 @@ case fun of
    ButtonUn7zaAdd.Hint:=txt_add_toarchive;
    advancedarchivebrowsermenus;
    MenuItemOpen_info.Visible:=true;
+   po_details.Visible:=true;
    end;
    'UNARC':
    begin
@@ -13298,9 +13309,11 @@ procedure prepare_filebrowser;
 begin
 setpanel_extract(1);
 set_extcontext_off;
-FormPeach.po_delete.Caption:=txt_quickdelete+' (Del)';
+FormPeach.po_delete.Caption:=txt_quickdelete+' (Del) / (Shift+Del)';
 {$IFDEF MSWINDOWS}FormPeach.po_delete.Caption:=txt_quickdelete+' (Shift+Del)';{$ENDIF}
 {$IFDEF DARWIN}FormPeach.po_delete.Caption:=txt_quickdelete+' (Shift+Del)';{$ENDIF}
+FormPeach.pmdelfromarchive.visible:=false;
+FormPeach.separator52.visible:=false;
 end;
 
 procedure set_organizebrowsermenu_sort(c:integer);
@@ -13791,8 +13804,20 @@ end;
 end;
 if swapbars=true then p.y:=p.y+PanelListBar.height+PanelTabBar.height;
 p:=clienttoscreen(p);
-if pmdeletefromarchive.Visible=false then pmrecycle.Caption:=txt_4_7_recycle+' (Del)'
-else pmrecycle.Caption:=txt_4_7_recycle;
+if pmdeletefromarchive.Visible=false then
+   begin
+   pmrecycle.Caption:=txt_4_7_recycle+' (Del)';
+   if pmrecycle.visible=true then pmquickdelete.Caption:=txt_quickdelete+' (Shift+Del)' else pmquickdelete.Caption:=txt_quickdelete+' (Del) / (Shift+Del)';
+   pmzerofile.Caption:=txt_5_2_zerofiles+' (Alt+Del)';
+   pmsecuredelete.Caption:=txt_securedelete+' (Ctrl+Del)';
+   end
+else
+   begin
+   pmrecycle.Caption:=txt_4_7_recycle;
+   pmquickdelete.Caption:=txt_quickdelete;
+   pmzerofile.Caption:=txt_5_2_zerofiles;
+   pmsecuredelete.Caption:=txt_securedelete;
+   end;
 pmmorefun.popup(p.x,p.y);
 end;
 end;
@@ -19951,7 +19976,6 @@ pmr_ascii.Caption:=txt_7_5_repnascii;
 CheckBoxAutoHaltA.Caption:=txt_5_5_halt;
 CheckBoxAutoHaltE.Caption:=txt_5_5_halt;
 po_zerofile.Caption:=txt_5_2_zerofiles+' (Alt+Del)';
-pmzerofile.Caption:=txt_5_2_zerofiles+' (Alt+Del)';
 po_zerofree.Caption:=txt_5_2_zerofree;
 pmzerofree.Caption:=txt_5_2_zerofree;
 po_securedeletefree.Caption:=txt_5_2_securedeletefree;
@@ -21178,13 +21202,8 @@ pmorganizebookmarks.Caption:=txt_2_9_organize+' '+txt_bookmarks;
 pmws.Caption:=txt_search_web;
 pmcommand.Caption:=txt_cphere;
 pmdeletefromarchive.Caption:=txt_10_9_deletearchive;
-pmrecycle.Caption:=txt_4_7_recycle;
 pmfunaz.Caption:=txt_4_8_fun;
 pmcut.Caption:=txt_cut;
-pmquickdelete.Caption:=txt_quickdelete+' (Del)';
-{$IFDEF MSWINDOWS}pmquickdelete.Caption:=txt_quickdelete+' (Shift+Del)';{$ENDIF}
-{$IFDEF DARWIN}pmquickdelete.Caption:=txt_quickdelete+' (Shift+Del)';{$ENDIF}
-pmsecuredelete.Caption:=txt_securedelete+' (Ctrl+Del)';
 MenuItemOpen_list.Caption:=txt_caption_list;
 MenuItemOpen_list_all.Caption:=txt_list_all;
 MenuItemOpen_list_displayed.Caption:=txt_list_disp;
@@ -21252,7 +21271,7 @@ po_computer.Caption:=txt_compmanagement;
 po_taskman.Caption:=txt_taskman;
 po_recycle.Caption:=txt_4_7_recycle+' (Del)';
 mexploretrash.Caption:=txt_10_0_exptrash;
-po_delete.Caption:=txt_quickdelete+' (Del)';
+po_delete.Caption:=txt_quickdelete+' (Del) / (Shift+Del)';
 {$IFDEF MSWINDOWS}po_delete.Caption:=txt_quickdelete+' (Shift+Del)';{$ENDIF}
 {$IFDEF DARWIN}po_delete.Caption:=txt_quickdelete+' (Shift+Del)';{$ENDIF}
 po_securedelete.Caption:=txt_securedelete+' (Ctrl+Del)';
@@ -34600,6 +34619,12 @@ if validatecl(s)<>0 then
    exit;
    end; //should not happen, because string must be valid for the filesystem
 {$IFDEF MSWINDOWS}
+if validatecl_console(s)<>0 then
+   begin
+   pMessageWarningOK(txt_2_7_validatecl+' '+s);
+   result:=0;
+   exit;
+   end;
 cl:='cmd /c rmdir "'+s+'" /s /q';
 P:=tprocessutf8.Create(nil);
 P.Options := [poNoConsole, poWaitOnExit];
@@ -34640,6 +34665,12 @@ if validatecl(s)<>0 then
    exit;
    end; //should not happen, because string must be valid for the filesystem
 {$IFDEF MSWINDOWS}
+if validatecl_console(s)<>0 then
+   begin
+   pMessageWarningOK(txt_2_7_validatecl+' '+s);
+   result:=0;
+   exit;
+   end;
 cl:='cmd /c rmdir "'+s+'" /s /q';
 P:=tprocessutf8.Create(nil);
 P.Options := [poNoConsole];
@@ -34690,6 +34721,12 @@ if FormPeach.Visible=true then Application.ProcessMessages;
    DeleteDirectory(s,false);
    end; } //dont'work with paths containing read only files, and keeps the files locked
 {$IFDEF MSWINDOWS}
+if validatecl_console(s)<>0 then
+   begin
+   pMessageWarningOK(txt_2_7_validatecl+' '+s);
+   result:=0;
+   exit;
+   end;
 cl:='cmd /c rmdir "'+s+'" /s /q';
 P:=tprocessutf8.Create(nil);
 P.Options := [poNoConsole, poWaitOnExit];
@@ -37619,12 +37656,18 @@ procedure open_prepare_un7z;
 begin
 FormPeach.po_delete.visible:=true;
 FormPeach.po_delete.Caption:=txt_2_5_delete_fromarchive+' (Del)';
+FormPeach.pmdelfromarchive.visible:=true;
+FormPeach.pmdelfromarchive.Caption:=FormPeach.po_delete.Caption;
+FormPeach.separator52.visible:=true;
 end;
 
 procedure open_prepare_unarc;
 begin
 FormPeach.po_delete.visible:=true;
 FormPeach.po_delete.Caption:=txt_2_5_delete_fromarchive+' (Del)';
+FormPeach.pmdelfromarchive.visible:=true;
+FormPeach.pmdelfromarchive.Caption:=FormPeach.po_delete.Caption;
+FormPeach.separator52.visible:=true;
 FormPeach.pmmorerr.Visible:=true;
 FormPeach.pmmorerecover.Visible:=true;
 FormPeach.po_rr.Visible:=true;
@@ -37870,7 +37913,7 @@ end;
 
 procedure create_ptmpcode(var s:ansistring);
 begin
-s:=STR_TMP+inttohex(random(16000000),6);
+s:=STR_TMP+randfn;
 ptmpdir:='';
 end;
 
@@ -49522,7 +49565,7 @@ if check7zvolume(ptest)=true then //when browsing units as archive, use a defaul
    end;
 if ptest<>'' then
    if ptest[length(ptest)]<>directoryseparator then ptest:=ptest+directoryseparator;
-ptest:=ptest+STR_TESTOUT+inttohex(random(16000000),6);
+ptest:=ptest+STR_TESTOUT+randfn;
 try
    assignfile(ptestf,ptest);
    {$I-} Reset(ptestf); {$I+}
@@ -49557,7 +49600,7 @@ test_outpath:=-1;
 ptest:=out_param;
 if ptest<>'' then
    if ptest[length(ptest)]<>directoryseparator then ptest:=ptest+directoryseparator;
-ptest:=ptest+STR_TESTOUT+inttohex(random(16000000),6);
+ptest:=ptest+STR_TESTOUT+randfn;
 {$IFDEF MSWINDOWS}
 if (ptest=txt_mypc) or (ptest='Compter''s root') then exit;
 d:=ptest[1];
@@ -49796,7 +49839,7 @@ if willbemoved=true then //must be set to false at the end of extraction operati
          5: begin move_out_param:=''; forcenotwillbemoved:=true; exit; end; //temporary files disallowed, fall back to standard extraction
          end;
       forcedirectories(out_param);
-      s:=out_param+STR_TMPEXT+inttohex(random(16000000),6);
+      s:=out_param+STR_TMPEXT+randfn;
       if copy(s,length(s),1)<>directoryseparator then s:=s+directoryseparator;
       out_param:=s;
       removedir(s); //output folder is created on the fly
@@ -50935,7 +50978,7 @@ else
    if snl7z=1 then psnl:='-snl' else psnl:='';
    end;
 end;
-//7za uses -- as tag to distinguish a filename starting with - from a switch, however since PeaZip uses absolute filenames it should never occur and filenames are not checked for that condition
+//7z uses -- tag to distinguish a filename starting with - from a switch, however PeaZip uses absolute filenames from the filesystem
 if pmode=0 then outname:=checkescapedoutname(escapefilename(out_param,desk_env)) else outname:=out_param;
 if vol_size>0 then outname:=outname+'.001'; //give correct output name if archive is split
 getworkpath(work_path,out_param);
@@ -51321,7 +51364,7 @@ if (mode='preview') or (specialopen=true) then
    set_outpath_preview(out_param); //on preview switch to user temp transparently if output path is read only
    if specialopen=true then
       begin
-      out_param:=out_param+STR_STMP+inttohex(random(16000000),6);
+      out_param:=out_param+STR_STMP+randfn;
       pstmpdir:=out_param;
       end
    else
@@ -51782,9 +51825,21 @@ if pw<>'' then
 if intpw=1 then
    begin
    case FormPeach.ComboBoxPEAStream.ItemIndex of
-      0: strm_algo:='TRIATS'+rkdf+' INTERACTIVE';
-      1: strm_algo:='TRITSA'+rkdf+' INTERACTIVE';
-      2: strm_algo:='TRISAT'+rkdf+' INTERACTIVE';
+      0: case FormPeach.ComboBoxPEAKDF.ItemIndex of
+         2: strm_algo:='TRIATS'+rkdf+' INTERACTIVE';
+         1: strm_algo:='HRIATS'+rkdf+' INTERACTIVE';
+         0: strm_algo:='SRIATS'+rkdf+' INTERACTIVE';
+         end;
+      1: case FormPeach.ComboBoxPEAKDF.ItemIndex of
+         2: strm_algo:='TRITSA'+rkdf+' INTERACTIVE';
+         1: strm_algo:='HRITSA'+rkdf+' INTERACTIVE';
+         0: strm_algo:='SRITSA'+rkdf+' INTERACTIVE';
+         end;
+      2: case FormPeach.ComboBoxPEAKDF.ItemIndex of
+         2: strm_algo:='TRISAT'+rkdf+' INTERACTIVE';
+         1: strm_algo:='HRISAT'+rkdf+' INTERACTIVE';
+         0: strm_algo:='SRISAT'+rkdf+' INTERACTIVE';
+         end;
       3: strm_algo:='EAX256 INTERACTIVE';
       4: strm_algo:='TF256 INTERACTIVE';
       5: strm_algo:='SP256 INTERACTIVE';
@@ -55318,7 +55373,7 @@ tindex:=FormPeach.ComboBoxActionExtract.ItemIndex;
 case fun of
 'UNARC': if compose_unarc_cl(cl,jobcode,outname,false,'info','all')<>0 then exit;
 'UN7Z': if compose_un7z_cl(cl,jobcode,outname,false,'info','all')<>0 then exit;
-'UNZPAQ': if compose_unzpaq_cl(cl,jobcode,outname,false,'test','all')<>0 then exit;
+'UNZPAQ': if compose_unzpaq_cl(cl,jobcode,outname,false,'list','all')<>0 then exit; //test is significantly slower
 end;
 
 FormPeach.ComboBoxActionExtract.ItemIndex:=tindex;
@@ -58109,7 +58164,7 @@ FormPeach.Caption:=txt_2_7_updating+' 2/4 '+txt_please_wait;
 application.ProcessMessages;
 if inpath<>'' then
    begin
-   tempaddinarchive:=STR_TMP+'dir'+inttohex(random(16000000),6);
+   tempaddinarchive:=STR_TMP+'dir'+randfn;
    if (fextl='.7Z') or (fextl='.TAR') or (fextl='.ZIP') or (fextl='.WIM') or (fextl='.RAR') or (test_forceeditunsupported(s)=1) then
       for i:=1 to FormPeach.StringGridArchive.Rowcount-1 do
          for j:=1 to FormPeach.StringGridAdd.RowCount-1 do
@@ -59265,7 +59320,7 @@ case optype of
       if checksingle_intdir(outname,oname)= true then
          begin
          // move content to parent output folder, remove intermediate folder if content is successfully moved
-         tmponame:=STR_TMP+'dir'+inttohex(random(16000000),6);
+         tmponame:=STR_TMP+'dir'+randfn;
          renamefile(outname+oname+directoryseparator, outname+tmponame+directoryseparator);
          movecontent_todir(outname+tmponame+directoryseparator,outname,1);
          end;
@@ -59285,7 +59340,7 @@ case optype of
       if checksingle_obj(moutname,oname)= true then
          begin
          rname:=extractfiledir(copy(moutname,1,length(moutname)-1))+directoryseparator;
-         tmpoutname:=rname+STR_TMP+'dir'+inttohex(random(16000000),6)+directoryseparator;
+         tmpoutname:=rname+STR_TMP+'dir'+randfn+directoryseparator;
          renamefile(moutname, tmpoutname);
          if movecontent_todir(tmpoutname,rname,1)<>0 then
             begin
@@ -65192,6 +65247,11 @@ begin
 filebrowser_funall('batchtest');
 end;
 
+procedure TFormPeach.pmdelfromarchiveClick(Sender: TObject);
+begin
+deleteselected_frombrowser;
+end;
+
 procedure TFormPeach.pmextdeskClick(Sender: TObject);
 begin
 quickextract(local_desktop,'*neutral','all');
@@ -68961,6 +69021,12 @@ begin
    cbType.ItemIndex:=15;
    archive_type_select(STR_ZIP);
    end;
+end;
+
+procedure TFormPeach.shiftEClick(Sender: TObject);
+begin
+if {$IFDEF MSWINDOWS}PanelOpen.Visible=true{$ELSE}PanelOpen.Top<>10000{$ENDIF} then
+   if FormPeach.pmbcexpand.Visible=true then FormPeach.pmbcexpandClick(nil);
 end;
 
 procedure TFormPeach.shiftF12Execute(Sender: TObject);
@@ -73924,12 +73990,6 @@ else
 }
 end;
 
-procedure TFormPeach.shiftEtogglearchivetreeExecute(Sender: TObject);
-begin
-if {$IFDEF MSWINDOWS}PanelOpen.Visible=true{$ELSE}PanelOpen.Top<>10000{$ENDIF} then
-   if FormPeach.pmbcexpand.Visible=true then FormPeach.pmbcexpandClick(nil);
-end;
-
 procedure TFormPeach.TreeViewNavDragOver(Sender, Source: TObject; X, Y: Integer;
   State: TDragState; var Accept: Boolean);
 begin
@@ -75426,7 +75486,7 @@ if winver<>'nt6+' then
    cl:='cmd /K wmic diskdrive get Status, DeviceID, InterfaceType, Model, Size'
 else
    cl:='powershell.exe -NoExit Get-CimInstance -ClassName Win32_diskdrive | Select-Object Status, DeviceID, MediaType, InterfaceType, Model, @{n=''Size (GB)'';e={[math]::Round($_.Size/1GB,2)}}, LastErrorCode, ErrorDescription, ErrorCleared, NeedsCleaning';//fixed parameters
-//(validation not needed, fixed string) if validatecl(cl)<>0 then begin pMessageWarningOK(txt_2_7_validatecl+' '+cl); exit; end;
+//(validation not needed, fixed string)
 P:=tprocessutf8.Create(nil);
 if FormPeach.Visible=true then Application.ProcessMessages;
 peapexecute(P,cl);
@@ -78601,7 +78661,7 @@ else
       raise MyThreaddrop.FatalException;
       exit;
       end;
-   vpathname:=STR_TMPDD+inttohex(random(16000000),6);
+   vpathname:=STR_TMPDD+randfn;
    vpath:=peaziptmpdir+vpathname+DirectorySeparator;
    vpath2:='';
    ForceDirectories(vpath);

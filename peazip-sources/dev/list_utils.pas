@@ -158,7 +158,7 @@ The program is released under GNU LGPL http://www.gnu.org/licenses/lgpl.txt
 interface
 
 uses {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, SysUtils, StrUtils,
-  StdCtrls, ComCtrls, ShellCtrls, FileUtil, Process, UTF8Process;
+  StdCtrls, ComCtrls, ShellCtrls, FileUtil, Process, UTF8Process, mem_util;
 
 type
   TFoundList = array of ansistring;
@@ -563,6 +563,9 @@ function getmagicbytes_arc(s:ansistring):ansistring;
 
 //check if a path (of dir or file) is inside a PeaZip's temp path
 function pathistmp(s:ansistring):boolean;
+
+//get a random 6 chars string which can be used as filename
+function randfn: ansistring;
 
 //split a string in words separated by space: ignore empty strings, ignore quotes
 function peasplitstring(s:AnsiString; var sfin:TStringList):integer;
@@ -1759,10 +1762,15 @@ end;
 {$ENDIF}
 
 procedure replacespecialpathchars(var s:ansistring);//replace special characters disallowd in Windows paths
+var
+   dotprefix:boolean;
 begin
 {$IFDEF MSWINDOWS}
+if s='' then exit;
 s:=StringReplace(s,':','_', [rfReplaceAll]); //remove : as in unit name in absolute paths
+if pos('.'+DirectorySeparator,s)=1 then dotprefix:=true else dotprefix:=false;
 s:=StringReplace(s,'.'+DirectorySeparator,'_'+DirectorySeparator,[rfReplaceAll]); //remove last dir name char if dot (not allowed), only this pattern
+if dotprefix=true then s[1]:='.';//restore dot+directoryseparator at the beginning of the path (properly handled by 7z) as used in some tar archives e.g. in deb installers
 s:=StringReplace(s,' '+DirectorySeparator,'_'+DirectorySeparator,[rfReplaceAll]); //remove last dir name char if space (not allowed), only this pattern
 {$ENDIF}
 end;
@@ -1812,6 +1820,46 @@ if pos('       ', s) <> 0 then exit;
 {$IFDEF MSWINDOWS}
 if pos('"', s) <> 0 then exit;
 if wintrailing(s)=true then exit;
+//{$ELSE}
+//if pos('\"', s) <> 0 then exit; //made redundant by other checks
+//if pos('\''', s) <> 0 then exit;
+{$ENDIF}
+sf := extractfilename(s);
+//reserved characters, filename only (others are checked for the full name)
+if pos('\', sf) <> 0 then exit;
+if pos('/', sf) <> 0 then exit;
+if pos(':', sf) <> 0 then exit;
+{$IFDEF MSWINDOWS}
+//reserved filenames (Windows)
+if winreserved(sf)=true then exit;
+{$ENDIF}
+result := 0;
+end;
+
+function checkfiledirname_io(s: ansistring): integer;
+//check for valid directory or file name, allow exception for wildcards (used in input/output filters)
+var
+   sf: ansistring;
+   i: integer;
+begin
+result := -1;
+if s = '' then exit;
+//illegal characters, full name
+for i := 0 to 31 do
+   if pos(char(i), s) <> 0 then exit;
+//reserved characters, full name
+//if pos('*', s) <> 0 then exit;//used in input/output filters
+//if pos('?', s) <> 0 then exit;//used in input/output filters
+if pos('<', s) <> 0 then exit;
+if pos('>', s) <> 0 then exit;
+if pos('|', s) <> 0 then exit;
+if pos('       ', s) <> 0 then exit;
+{$IFDEF MSWINDOWS}
+if pos('"', s) <> 0 then exit;
+if wintrailing(s)=true then exit;
+//{$ELSE}
+//if pos('\"', s) <> 0 then exit; //made redundant by other checks
+//if pos('\''', s) <> 0 then exit;
 {$ENDIF}
 sf := extractfilename(s);
 //reserved characters, filename only (others are checked for the full name)
@@ -1913,6 +1961,7 @@ end;
 
 function escapefilename(s: ansistring; desk_env: byte): ansistring;
 begin
+if checkfiledirname_io(s)<>0 then begin result:='#rejected_string#'; exit; end;
 {$IFDEF MSWINDOWS}
 result := s;
 {$ELSE}
@@ -1925,7 +1974,7 @@ var
    cdelim:ansistring;
 begin
 cdelim:=correctdelimiter(s);
-if pos(cdelim, s)<>0 then begin result:='#invalid string#'; exit; end;//error, quotation character already used in the string: string is sanitized for security and replaced with a rejection string #invalid string# which is checked by validatecl before execution, assuring the containing command line will be discarded
+if pos(cdelim, s)<>0 then begin result:='#rejected_string#'; exit; end;//error, quotation character already used in the string: input string is sanitized for security and replaced with a rejection string placeholder which is checked by validatecl before execution, assuring the containing command line will be discarded
 result := cdelim+s+cdelim;
 end;
 
@@ -2304,7 +2353,7 @@ begin
 result := -1;
 if s = '' then   exit;
 
-if pos('#invalid string#',s)<>0 then exit;//rejection string, in depth safeguard to discard the containing cl if an appropriate check did not happened earlier: if a string sanitization routine has failed to produce a valid output it replaces the offending input with the rejection string
+if pos('#rejected_string#',s)<>0 then exit;//rejection string, in depth safeguard to discard the containing cl if an appropriate check did not happened earlier: if a string sanitization routine has failed to produce a valid output it replaces the offending input with the rejection string
 
 for i := 0 to 31 do if pos(char(i), s) <> 0 then exit; //illegal characters
 
@@ -2368,11 +2417,12 @@ if pos('<',s1)<>0 then exit;//critical input redirection
 if pos('>',s1)<>0 then exit;//critical output redirection, disable generation of command scripts for tar with pipe
 if pos('`',s1)<>0 then exit;//critical backtick command substitution
 if pos('$',s1)<>0 then exit;//critical dollar variable expansion
-//if pos('!',s1)<>0 then exit;//exclamation history expansion (needed by the syntax of some backends, e.g. 7z include switch)
+//if pos('!',s1)<>0 then exit;//exclamation history expansion, bash interactive (needed by the syntax of some backends, e.g. 7z include switch)
 //if pos('"',s1)<>0 then exit;//quote double (input quotation must be correctly handled before being passed here, relevant procedure stringdelim)
 //if pos('''',s1)<>0 then exit;//quote single
-//if pos('\',s1)<>0 then exit;//backslash escape character (needed as path separator for UNC and Windows, also used in escapefilenamelinuxlike when passing command as separate parameters on non-Windows systems)
-//line separators \r \n and Unicode U+2028, U+2029 should not be supported in TProcess.Commandline (not a real console, limited support for meta characters)
+//if pos('\',s1)<>0 then exit;//backslash escape character (needed as path separator for UNC and Windows)
+//backslash is also used in escapefilenamelinuxlike when passing command as separate parameters (pmode=1) on non-Windows systems; escapefilename, which calls escapefilenamelinuxlike, before the escaping part discards file names containing \ (on all platforms) and file/dir names containing \' \" (on non-Windows)
+//line separators \r \n and Unicode U+2028, U+2029 are crrently not supported in TProcess.Commandline (not a real console, provides limited support for meta characters) and are checked separately in validatecl_console only when passing input to a real console instance
 if pos('#',s1)<>0 then exit;//hash bash comment or special character
 if pos('~',s1)<>0 then exit;//tilde home directory expansion
 
@@ -2380,23 +2430,22 @@ if pos('       ',s1)<>0 then exit; //more than 6 consecutive spaces may be inten
 result := 0;
 end;
 
-function validatecl_console(var s: ansistring): integer;
+function validatecl_console(var s: ansistring): integer;//should be called after validatecl to cover exclusion of specific metacharacters which can be dangerous or troublesome to parse if passed to a real console instance
 var
   i: integer;
   s1,delimch:ansistring;
 begin
 result := -1;
-
-{$IFNDEF MSWINDOWS}
-{$IFNDEF DARWIN}
 if s='' then exit;
+{$IFDEF MSWINDOWS}
+//seem not exploitable: % environment variables wrap, ^ escape character
+{$ELSE}
 if pos('"',s)<>0 then exit;
 if pos('\r',s)<>0 then exit; //carriage return
 if pos('\n',s)<>0 then exit; //line feed
+//\t tab \v vertical space \f form feed could be added for increased safety
 if pos(#$E2#$80#$A8,s)<>0 then exit; //Unicode line separator U+2028
 if pos(#$E2#$80#$A9,s)<>0 then exit; //Unicode paragraph separator U+2028
-//if pos('\',s)<>0 then exit;
-{$ENDIF}
 {$ENDIF}
 result := 0;
 end;
@@ -3301,6 +3350,21 @@ if (pos(STR_TMP,s)) or
    (pos(STR_TMPEXT,s)) or
    (pos(STR_TMPDD,s)) or
    (pos(STR_PEAZIPTMP,s))<>0 then result:=true;
+end;
+
+//get a random 6 chars string which can be used as filename
+function randfn: ansistring;
+var
+   i:integer;
+   s:ansistring;
+begin
+//s:=inttohex(random(16000000),6); //(legacy) random 16M, hex encoded 6 chars string
+i:=random(68719000000);
+s:=base64str(@i,SizeOf(i));
+s:=StringReplace(s,'+','-',[rfReplaceAll]);
+s:=StringReplace(s,'/','_',[rfReplaceAll]);
+SetLength(s,6);
+result:=s; //random 68B, url-safe base64 encoded 6 chars string
 end;
 
 //split a string in words separated by space: ignore empty strings, ignore quotes

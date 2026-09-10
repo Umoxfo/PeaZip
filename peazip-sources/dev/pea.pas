@@ -245,7 +245,8 @@ unit pea; //Main form of pea executable, providing GUI to file tools, pea/unpea 
  1.31     20260506  G.Tani      (.pea format) Fixed path traversal evasion on extraction, enforcing canonicalization of names (archiving and extraction) and explicit rejection of relative paths stored in name field (extraction), vulnerability and poc reported by Harshit Gupta
                                 (Windows) Fixed sanitization of input for functions invoking PowerShell, vulnerability and poc reported by Harshit Gupta
  1.32     20260704  G.Tani      Hardened integrity tags checks with constant-time comparison routines, fixes
- 1.33     20260903  G.Tani      *** IN PROGRESS
+ 1.33     20260910  G.Tani      *** IN PROGRESS
+                                Fixed "invalid password length" error triggered by some interactive modes
                                 Fixed MoTW check failing for some filenames
                                 Fixed some PEA files erroneously reported as containing relative paths
                                 Fixed validation of first compressed block size on extraction of PEA archives
@@ -777,6 +778,50 @@ for i:=0 to 254 do arr[i]:=randarr[i+1];
 arr[255]:=randarr[0];
 except
 end;
+end;
+
+function cleardirsimple(s:ansistring):integer;
+var
+   P: tprocessutf8;
+   cl:ansistring;
+begin
+result:=-1;
+if s='' then
+   begin
+   result:=0;
+   exit;
+   end;
+if not(checkdirexists((s))) then
+   begin
+   result:=0;
+   exit;
+   end;
+if validatecl(s)<>0 then
+   begin
+   result:=0;
+   exit;
+   end; //should not happen, because string must be valid for the filesystem
+{$IFDEF MSWINDOWS}
+if validatecl_console(s)<>0 then
+   begin
+   result:=0;
+   exit;
+   end;
+cl:='cmd /c rmdir "'+s+'" /s /q';
+P:=tprocessutf8.Create(nil);
+P.Options := [poNoConsole, poWaitOnExit];
+peapexecute(P,cl);
+result:=P.ExitStatus;
+P.Free;
+{$ELSE} //system needs to support rm command
+cl:='rm -r '+stringdelim(escapefilename(s,desk_env));
+P:=tprocessutf8.Create(nil);
+P.Options := [poWaitOnExit];
+peapexecute(P,cl);
+result:=P.ExitStatus;
+P.Free;
+{$ENDIF}
+if checkdirexists(s) then result:=-1;
 end;
 
 {
@@ -3294,29 +3339,10 @@ if upcase(struct_param)='EXTRACT2DIR' then //save objects with shortest path in 
    end;
 end;
 
-function delout(s:ansistring):integer;
-var
-   k:integer;
-   nfound:qword;
+procedure do_cleardir(s:ansistring);
 begin
-result:=-1;
 if (out_path='') and (out_file='') then exit;//safeguard
-expand(s,exp_files,exp_fsizes,exp_ftimes,exp_fattr,exp_fattr_dec,nfound);
-if nfound=0 then nfound:=1;
-for k:=0 to nfound-1 do
-   begin
-   if filegetattr(exp_files[k]) and faDirectory = 0 then //file
-      begin
-      {$IFDEF MSWINDOWS}
-      upredeletefile(exp_files[k]);
-      {$ENDIF}
-      udeletefile(exp_files[k]);//quick delete
-      end
-   else RemoveDir(exp_files[k]);
-   end;
-RemoveDir(s);
-if DirectoryExists(s,false) then exit;
-result:=0;
+cleardirsimple(s);
 end;
 
 begin
@@ -3515,12 +3541,12 @@ if upcase(struct_param)='EXTRACT2DIR' then //actually this is the only output me
    begin
    Randomize;
    real_out_file:=out_file;
-   out_file:='.UNPEA'+inttohex(random(16000000),6);
+   out_file:='.UNPEA'+randfn;
    try
    forcedirectories(out_path+out_file);
    except
    sleep(200+random(50));
-   out_file:='.UNPEA'+inttohex(random(16000000),6);
+   out_file:='.UNPEA'+randfn;
    forcedirectories(out_path+out_file);
    end;
    end;
@@ -3750,11 +3776,21 @@ while (chunks_ok=true) and (end_of_archive=false) do
                if upcase(struct_param)='EXTRACT2DIR' then
                   begin
                   //explicit rejection of relative paths, enforce format specs about only absolute full qualified names being supported
-                  if pos(fn,ExpandFileName(fn))=0 then internal_error('Relative filenames not supported '+fn); //in non-Windows systems Windows paths gets expanded starting from work path (in this case output path)
+                  if pos(fn,ExpandFileName(fn))=0 then
+                     begin
+                     setcurrentdir(out_path);
+                     do_cleardir(out_path+out_file);//already defined
+                     internal_error('Relative filenames not supported '+fn); //in non-Windows systems Windows paths gets expanded starting from work path (in this case output path)
+                     end;
                   //additional check for relative paths, should be made redundant by previous check
                   if (pos(directoryseparator+'..'+directoryseparator,fn)<>0) or (pos('/../',fn)<>0) or (pos('\..\',fn)<>0) or
                   (pos('\../',fn)<>0) or (pos('/..\',fn)<>0) or
-                  (pos('..'+directoryseparator,fn)=1) or (pos('../',fn)=1) or (pos('..\',fn)=1) then internal_error('Relative filenames not supported '+fn);
+                  (pos('..'+directoryseparator,fn)=1) or (pos('../',fn)=1) or (pos('..\',fn)=1) then
+                     begin
+                     setcurrentdir(out_path);
+                     do_cleardir(out_path+out_file);
+                     internal_error('Relative filenames not supported '+fn);
+                     end;
                   //enforce canonicalization of full qualified name as alternative security layer, should be made redundant by previous checks
                   fn:=ExpandFileName(fn);
                   extract2dir;
@@ -4081,11 +4117,7 @@ else
    do_report_unpea;
    FormPea.LabelOpen.Enabled:=false;
    if (upcase(pw_param)='INTERACTIVE_REPORT') or (upcase(pw_param)='BATCH_REPORT') or (upcase(pw_param)='HIDDEN_REPORT') then save_report('Auto log UnPEA','txt','',upcase(pw_param),out_path);
-   if delout(output)<>0 then
-      begin
-      sleep(200+random(50));
-      delout(output);
-      end;
+   do_cleardir(output);
    {
    //alternative: mark the output with ERROR string
    FormPea.LabelDecryptOutput.Caption:='ERROR '+real_out_file+DirectorySeparator;
@@ -7756,14 +7788,17 @@ end;
 end;
 
 procedure call_pea;
+var
+  spar:ansistring;
 begin
 FormPea.PanelRFSinteractive.visible:=false;
 FormPea.PanelTools.visible:=false;
-if (upcase(paramstr(7))='TRIATS') or (upcase(paramstr(7))='TRITSA') or (upcase(paramstr(7))='TRISAT') or
-   (upcase(paramstr(7))='SRIATS') or (upcase(paramstr(7))='SRITSA') or (upcase(paramstr(7))='SRISAT') or
-   (upcase(paramstr(7))='HRIATS') or (upcase(paramstr(7))='HRITSA') or (upcase(paramstr(7))='HRISAT') or
-   (upcase(paramstr(7))='EAX256') or (upcase(paramstr(7))='TF256') or (upcase(paramstr(7))='SP256') or
-   (upcase(paramstr(7))='EAX') or (upcase(paramstr(7))='TF') or (upcase(paramstr(7))='SP') or (upcase(paramstr(7))='HMAC') then
+if length(paramstr(7))>6 then spar:=upcase(copy(paramstr(7),1,6)) else spar:=upcase(paramstr(7));
+if (spar='TRIATS') or (spar='TRITSA') or (spar='TRISAT') or
+   (spar='SRIATS') or (spar='SRITSA') or (spar='SRISAT') or
+   (spar='HRIATS') or (spar='HRITSA') or (spar='HRISAT') or
+   (spar='EAX256') or (spar='TF256') or (spar='SP256') or
+   (spar='EAX') or (spar='TF') or (spar='SP') or (spar='HMAC') then
    if (upcase(paramstr(8))='INTERACTIVE') or (upcase(paramstr(8))='INTERACTIVE_REPORT') then
       begin
       FormPea.Visible:=true;
