@@ -15,7 +15,7 @@ package = false
 
 [dependency-groups]
 dev = [{ include-group = "lint" }]
-lint = ["ruff>=0.16.6"]
+lint = ["ruff>=0.16.7"]
 
 [tool.ruff]
 target-version = "py314"
