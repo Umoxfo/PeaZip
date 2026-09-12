@@ -224,17 +224,6 @@
     }
 },
 {
-    L"PeaZip.ext2a", {
-        .labelKey = L"Ext2A",
-        .fallbackLabel = LR"(Extract archives)",
-        .iconPath = LR"(res\share\icons\peazip_seven.icl)",
-        .iconIndex = 4,
-        .flags = ECF_DEFAULT,
-        .command = LR"(PEAZIP.EXE)",
-        .arguments = LR"(-ext2multi)"
-    }
-},
-{
     L"PeaZip.ext2browseasarchive", {
         .labelKey = L"Ext2BrowseAsArchive",
         .fallbackLabel = LR"(&Open as archive)",
